@@ -30,3 +30,4 @@ hs_err_pid*
 # .gitignore is already tracked or if you use -f to
 # force-add it if you just created it
 !/.gitignore
+COMP2042_CW_hcyic1.iml
