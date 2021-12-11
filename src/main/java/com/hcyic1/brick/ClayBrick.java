@@ -1,8 +1,7 @@
-package test;
+package com.hcyic1.brick;
 
 import java.awt.*;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 
 /**

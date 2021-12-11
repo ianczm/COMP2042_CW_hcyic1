@@ -1,4 +1,4 @@
-package test;
+package com.hcyic1.brick;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

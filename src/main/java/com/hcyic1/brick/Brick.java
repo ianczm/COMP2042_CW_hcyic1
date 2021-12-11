@@ -1,10 +1,14 @@
-package test;
+package com.hcyic1.brick;
 
+// import Java packages
 import java.awt.*;
 import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
+
+// import game packages
+import com.hcyic1.ball.Ball;
 
 /**
  * Created by filippo on 04/09/16.
@@ -225,13 +229,13 @@ abstract public class Brick  {
         if(broken)
             return 0;
         int out  = 0;
-        if(brickFace.contains(b.right))
+        if(brickFace.contains(b.getPosRight()))
             out = LEFT_IMPACT;
-        else if(brickFace.contains(b.left))
+        else if(brickFace.contains(b.getPosLeft()))
             out = RIGHT_IMPACT;
-        else if(brickFace.contains(b.up))
+        else if(brickFace.contains(b.getPosUp()))
             out = DOWN_IMPACT;
-        else if(brickFace.contains(b.down))
+        else if(brickFace.contains(b.getPosDown()))
             out = UP_IMPACT;
         return out;
     }

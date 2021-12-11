@@ -1,4 +1,4 @@
-package test;
+package com.hcyic1.ball;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -14,10 +14,10 @@ abstract public class Ball {
 
     private Point2D center;
 
-    Point2D up;
-    Point2D down;
-    Point2D left;
-    Point2D right;
+    private Point2D up;
+    private Point2D left;
+    private Point2D right;
+    private Point2D down;
 
     private Color border;
     private Color inner;
@@ -91,9 +91,17 @@ abstract public class Ball {
         return inner;
     }
 
-    public Point2D getPosition(){
+    public Point2D getPosCenter(){
         return center;
     }
+
+    public Point2D getPosUp() { return up; }
+
+    public Point2D getPosDown() { return down; }
+
+    public Point2D getPosLeft() { return left; }
+
+    public Point2D getPosRight() { return right; }
 
     public Shape getBallFace(){
         return ballFace;

@@ -15,7 +15,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package com.hcyic1.wall;
+
+import com.hcyic1.ball.Ball;
+import com.hcyic1.ball.RubberBall;
+import com.hcyic1.brick.Brick;
+import com.hcyic1.brick.CementBrick;
+import com.hcyic1.brick.ClayBrick;
+import com.hcyic1.brick.SteelBrick;
+import com.hcyic1.player.Player;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -33,9 +41,10 @@ public class Wall {
     private Random rnd;
     private Rectangle area;
 
-    Brick[] bricks;
-    Ball ball;
-    Player player;
+    // to be shared publicly
+    public Brick[] bricks;
+    public Ball ball;
+    public Player player;
 
     private Brick[][] levels;
     private int level;
@@ -184,17 +193,17 @@ public class Wall {
         }
         else if(impactWall()){
             /*for efficiency reverse is done into method impactWall
-            * because for every brick program checks for horizontal and vertical impacts
+            * because for every com.ianczm.brick program checks for horizontal and vertical impacts
             */
             brickCount--;
         }
         else if(impactBorder()) {
             ball.reverseX();
         }
-        else if(ball.getPosition().getY() < area.getY()){
+        else if(ball.getPosCenter().getY() < area.getY()){
             ball.reverseY();
         }
-        else if(ball.getPosition().getY() > area.getY() + area.getHeight()){
+        else if(ball.getPosCenter().getY() > area.getY() + area.getHeight()){
             ballCount--;
             ballLost = true;
         }
@@ -206,25 +215,25 @@ public class Wall {
                 //Vertical Impact
                 case Brick.UP_IMPACT:
                     ball.reverseY();
-                    return b.setImpact(ball.down, Brick.Crack.UP);
+                    return b.setImpact(ball.getPosDown(), Brick.Crack.UP);
                 case Brick.DOWN_IMPACT:
                     ball.reverseY();
-                    return b.setImpact(ball.up,Brick.Crack.DOWN);
+                    return b.setImpact(ball.getPosUp(),Brick.Crack.DOWN);
 
                 //Horizontal Impact
                 case Brick.LEFT_IMPACT:
                     ball.reverseX();
-                    return b.setImpact(ball.right,Brick.Crack.RIGHT);
+                    return b.setImpact(ball.getPosRight(),Brick.Crack.RIGHT);
                 case Brick.RIGHT_IMPACT:
                     ball.reverseX();
-                    return b.setImpact(ball.left,Brick.Crack.LEFT);
+                    return b.setImpact(ball.getPosLeft(),Brick.Crack.LEFT);
             }
         }
         return false;
     }
 
     private boolean impactBorder(){
-        Point2D p = ball.getPosition();
+        Point2D p = ball.getPosCenter();
         return ((p.getX() < area.getX()) ||(p.getX() > (area.getX() + area.getWidth())));
     }
 
