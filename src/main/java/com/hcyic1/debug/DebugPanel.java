@@ -28,45 +28,37 @@ import java.awt.event.ActionListener;
 public class DebugPanel extends JPanel {
 
     private static final Color DEF_BKG = Color.WHITE;
-
-
-    private JButton skipLevel;
-    private JButton resetBalls;
+    public static final int GRID_ROWS = 2;
+    public static final int GRID_COLS = 2;
 
     private JSlider ballXSpeed;
     private JSlider ballYSpeed;
 
-    private Wall wall;
-
     public DebugPanel(Wall wall) {
 
-        this.wall = wall;
-
         initialize();
-
-        skipLevel = makeButton("Skip Level", e -> wall.nextLevel());
-        resetBalls = makeButton("Reset Balls", e -> wall.resetBallCount());
-
-        ballXSpeed = makeSlider(-4, 4, e -> wall.setBallXSpeed(ballXSpeed.getValue()));
-        ballYSpeed = makeSlider(-4, 4, e -> wall.setBallYSpeed(ballYSpeed.getValue()));
-
-        this.add(skipLevel);
-        this.add(resetBalls);
-
-        this.add(ballXSpeed);
-        this.add(ballYSpeed);
+        addDebugButtons(wall);
+        addDebugSliders(wall);
 
     }
 
     private void initialize() {
         this.setBackground(DEF_BKG);
-        this.setLayout(new GridLayout(2, 2));
+        this.setLayout(new GridLayout(GRID_ROWS, GRID_COLS));
     }
 
     private JButton makeButton(String title, ActionListener e) {
         JButton out = new JButton(title);
         out.addActionListener(e);
         return out;
+    }
+
+    private void addDebugButtons(Wall wall) {
+        JButton skipLevel = makeButton("Skip Level", e -> wall.nextLevel());
+        this.add(skipLevel);
+
+        JButton resetBalls = makeButton("Reset Balls", e -> wall.resetBallCount());
+        this.add(resetBalls);
     }
 
     private JSlider makeSlider(int min, int max, ChangeListener e) {
@@ -78,7 +70,15 @@ public class DebugPanel extends JPanel {
         return out;
     }
 
-    public void setValues(int x, int y) {
+    private void addDebugSliders(Wall wall) {
+        ballXSpeed = makeSlider(Wall.MIN_SPEED_X, Wall.MAX_SPEED_X, e -> wall.setBallXSpeed(ballXSpeed.getValue()));
+        this.add(ballXSpeed);
+
+        ballYSpeed = makeSlider(Wall.MIN_SPEED_Y, Wall.MAX_SPEED_Y, e -> wall.setBallYSpeed(ballYSpeed.getValue()));
+        this.add(ballYSpeed);
+    }
+
+    public void setSpeeds(int x, int y) {
         ballXSpeed.setValue(x);
         ballYSpeed.setValue(y);
     }
