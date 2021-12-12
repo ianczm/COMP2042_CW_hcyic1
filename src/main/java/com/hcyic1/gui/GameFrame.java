@@ -22,78 +22,99 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-
+/**
+ * The graphical interface of the entire game.
+ */
 public class GameFrame extends JFrame implements WindowFocusListener {
 
     private static final String DEF_TITLE = "Brick Destroy";
+    private static final int SPLASH_WIDTH = 450;
+    private static final int SPLASH_HEIGHT = 300;
 
-    private GameBoard gameBoard;
-    private HomeMenu homeMenu;
+    private final GameBoard gameBoard;
+    private final SplashScreen splashScreen;
 
-    private boolean gaming;
+    private boolean windowFocused;
 
-    public GameFrame(){
+    /**
+     * Constructs GameFrame that initialises an instance each of the board
+     * and splash screens. Is configured to display splashScreen first.
+     */
+    public GameFrame() {
+
         super();
 
-        gaming = false;
+        windowFocused = false;
 
         this.setLayout(new BorderLayout());
 
         gameBoard = new GameBoard(this);
+        splashScreen = new SplashScreen(this, new Dimension(SPLASH_WIDTH, SPLASH_HEIGHT));
 
-        homeMenu = new HomeMenu(this,new Dimension(450,300));
-
-        this.add(homeMenu,BorderLayout.CENTER);
-
-        this.setUndecorated(true);
-
+        displaySplashScreen();
 
     }
 
-    public void initialize(){
+    /**
+     * Displays window on main display based on pre-set
+     * window size, appearance and behavior.
+     */
+    public void initialize() {
         this.setTitle(DEF_TITLE);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
-        this.autoLocate();
+        this.autoCentreWindow();
         this.setVisible(true);
     }
 
-    public void enableGameBoard(){
+    /**
+     * Display gameBoard. This method assumes nothing
+     * else is currently displayed.
+     */
+    private void displaySplashScreen() {
+        this.add(splashScreen, BorderLayout.CENTER);
+        this.setUndecorated(true);
+    }
+
+    /**
+     * Remove splashScreen and display gameBoard.
+     * This method assumes splashScreen is already displayed.
+     */
+    public void displayGameBoard() {
         this.dispose();
-        this.remove(homeMenu);
-        this.add(gameBoard,BorderLayout.CENTER);
+        this.remove(splashScreen);
+        this.add(gameBoard, BorderLayout.CENTER);
         this.setUndecorated(false);
         initialize();
-        /*to avoid problems with graphics focus controller is added here*/
+        /*to avoid problems with graphics, focus controller is added here*/
         this.addWindowFocusListener(this);
 
     }
 
-    private void autoLocate(){
+    /**
+     * Centres the window on the main display.
+     */
+    private void autoCentreWindow() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (size.width - this.getWidth()) / 2;
         int y = (size.height - this.getHeight()) / 2;
-        this.setLocation(x,y);
+        this.setLocation(x, y);
     }
 
-
+    /**
+     * Sets gaming state to <code>true</code> when window is active.
+     */
     @Override
     public void windowGainedFocus(WindowEvent windowEvent) {
-        /*
-            the first time the frame loses focus is because
-            it has been disposed to install the GameBoard,
-            so went it regains the focus it's ready to play.
-            of course calling a method such as 'onLostFocus'
-            is useful only if the GameBoard as been displayed
-            at least once
-         */
-        gaming = true;
+        windowFocused = true;
     }
 
+    /**
+     * Switches the game to a lost-focus and stopped state.
+     */
     @Override
     public void windowLostFocus(WindowEvent windowEvent) {
-        if(gaming)
-            gameBoard.onLostFocus();
-
+        if (windowFocused)
+            gameBoard.stopGameOnFocusLoss();
     }
 }
