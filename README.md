@@ -1,12 +1,17 @@
-# Brick_Destroy
-This is a simple arcace video game.
-Player's goal is to destroy a com.hcyic1.wall with a small com.hcyic1.ball.
-The game has  very simple commmand:
-SPACE start/pause the game
-A move left the com.hcyic1.player
-D move rigth the com.hcyic1.player
-ESC enter/exit pause menu
-ALT+SHITF+F1 open console
-the game automatically pause if the frame loses focus
+# Software Maintenance Coursework
 
-Enjoy ;-)
+This individual coursework aims to apply Software Maintenance principles to the
+original [Brick Destroy game by FilippoRanza](https://github.com/FilippoRanza/Brick_Destroy).
+
+### Brick Destroy Description
+
+This is a simple arcade video game. The player's goal is to destroy a wall with a small ball.
+
+Here are the key binds to play the game.
+- `SPACE` to start or pause the game
+- `A` to move left
+- `D` to move right
+- `ESC` to access the pause menu
+- `ALT`+`SHIFT`+`F1` to open the console
+
+The game automatically pauses if the window loses focus.
