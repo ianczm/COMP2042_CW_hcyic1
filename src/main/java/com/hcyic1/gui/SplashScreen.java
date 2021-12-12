@@ -45,11 +45,13 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
     private static final Color CLICKED_TEXT = Color.WHITE;
     private static final int BORDER_SIZE = 5;
     private static final float[] DASHES = {12, 6};
+    public static final int GREETINGS_FONT_SIZE = 25;
+    public static final int TITLE_FONT_SIZE = 40;
+    public static final int CREDITS_FONT_SIZE = 10;
 
-    private Rectangle menuFace;
+    private Rectangle splashScreen;
     private Rectangle startButton;
     private Rectangle menuButton;
-
 
     private BasicStroke borderStoke;
     private BasicStroke borderStoke_noDashes;
@@ -59,39 +61,77 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
     private Font creditsFont;
     private Font buttonFont;
 
-    private GameFrame owner;
+    private final GameFrame gameFrame;
 
     private boolean startClicked;
     private boolean menuClicked;
 
 
-    public SplashScreen(GameFrame owner, Dimension area) {
+    /**
+     * Constructor to properly configure the user interface
+     * and design elements of the splash screen.
+     * @param gameFrame the parent gameFrame that would contain this splash screen.
+     * @param area width and height of the parent frame.
+     */
+    public SplashScreen(GameFrame gameFrame, Dimension area) {
 
+        this.gameFrame = gameFrame;
+
+        focusWindowAndInput();
+        createScreen(area);
+        createButtons(area);
+        setBorders();
+        setFonts();
+    }
+
+    /**
+     * Makes window focusable and be able
+     * to receive input from mouse.
+     */
+    private void focusWindowAndInput() {
+        // window focus
         this.setFocusable(true);
         this.requestFocusInWindow();
-
+        // mouse listener
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+    }
 
-        this.owner = owner;
+    /**
+     * Configures the appearance of the splash screen border.
+     */
+    private void setBorders() {
+        borderStoke = new BasicStroke(BORDER_SIZE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, DASHES, 0);
+        borderStoke_noDashes = new BasicStroke(BORDER_SIZE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    }
 
-
-        menuFace = new Rectangle(new Point(0, 0), area);
+    /**
+     * Creates the area containing the splash screen.
+     * @param area width and height of the parent frame.
+     */
+    private void createScreen(Dimension area) {
+        splashScreen = new Rectangle(new Point(0, 0), area);
         this.setPreferredSize(area);
+    }
 
+    /**
+     * Generate start and menu buttons for the splash screen.
+     * @param area width and height of the parent frame.
+     */
+    private void createButtons(Dimension area) {
         Dimension btnDim = new Dimension(area.width / 3, area.height / 12);
         startButton = new Rectangle(btnDim);
         menuButton = new Rectangle(btnDim);
+    }
 
-        borderStoke = new BasicStroke(BORDER_SIZE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, DASHES, 0);
-        borderStoke_noDashes = new BasicStroke(BORDER_SIZE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-
-        greetingsFont = new Font("Noto Mono", Font.PLAIN, 25);
-        gameTitleFont = new Font("Noto Mono", Font.BOLD, 40);
-        creditsFont = new Font("Monospaced", Font.PLAIN, 10);
+    /**
+     * Configure the font face, weight and size of text displayed on the splash screen.
+     */
+    private void setFonts() {
+        greetingsFont = new Font("Noto Mono", Font.PLAIN, GREETINGS_FONT_SIZE);
+        gameTitleFont = new Font("Noto Mono", Font.BOLD, TITLE_FONT_SIZE);
+        creditsFont = new Font("Monospaced", Font.PLAIN, CREDITS_FONT_SIZE);
         buttonFont = new Font("Monospaced", Font.PLAIN, startButton.height - 2);
-
-
     }
 
 
@@ -112,8 +152,8 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
         Color prevColor = g2d.getColor();
         Font prevFont = g2d.getFont();
 
-        double x = menuFace.getX();
-        double y = menuFace.getY();
+        double x = splashScreen.getX();
+        double y = splashScreen.getY();
 
         g2d.translate(x, y);
 
@@ -131,17 +171,17 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
         Color prev = g2d.getColor();
 
         g2d.setColor(BG_COLOR);
-        g2d.fill(menuFace);
+        g2d.fill(splashScreen);
 
         Stroke tmp = g2d.getStroke();
 
         g2d.setStroke(borderStoke_noDashes);
         g2d.setColor(DASH_BORDER_COLOR);
-        g2d.draw(menuFace);
+        g2d.draw(splashScreen);
 
         g2d.setStroke(borderStoke);
         g2d.setColor(BORDER_COLOR);
-        g2d.draw(menuFace);
+        g2d.draw(splashScreen);
 
         g2d.setStroke(tmp);
 
@@ -160,19 +200,19 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
 
         int sX, sY;
 
-        sX = (int) (menuFace.getWidth() - greetingsRect.getWidth()) / 2;
-        sY = (int) (menuFace.getHeight() / 4);
+        sX = (int) (splashScreen.getWidth() - greetingsRect.getWidth()) / 2;
+        sY = (int) (splashScreen.getHeight() / 4);
 
         g2d.setFont(greetingsFont);
         g2d.drawString(GREETINGS, sX, sY);
 
-        sX = (int) (menuFace.getWidth() - gameTitleRect.getWidth()) / 2;
+        sX = (int) (splashScreen.getWidth() - gameTitleRect.getWidth()) / 2;
         sY += (int) gameTitleRect.getHeight() * 1.1;//add 10% of String height between the two strings
 
         g2d.setFont(gameTitleFont);
         g2d.drawString(GAME_TITLE, sX, sY);
 
-        sX = (int) (menuFace.getWidth() - creditsRect.getWidth()) / 2;
+        sX = (int) (splashScreen.getWidth() - creditsRect.getWidth()) / 2;
         sY += (int) creditsRect.getHeight() * 1.1;
 
         g2d.setFont(creditsFont);
@@ -190,8 +230,8 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
 
         g2d.setFont(buttonFont);
 
-        int x = (menuFace.width - startButton.width) / 2;
-        int y = (int) ((menuFace.height - startButton.height) * 0.8);
+        int x = (splashScreen.width - startButton.width) / 2;
+        int y = (int) ((splashScreen.height - startButton.height) * 0.8);
 
         startButton.setLocation(x, y);
 
@@ -247,7 +287,7 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
     public void mouseClicked(MouseEvent mouseEvent) {
         Point p = mouseEvent.getPoint();
         if (startButton.contains(p)) {
-            owner.displayGameBoard();
+            gameFrame.displayGameBoard();
 
         } else if (menuButton.contains(p)) {
             System.out.println("Goodbye " + System.getProperty("user.name"));
