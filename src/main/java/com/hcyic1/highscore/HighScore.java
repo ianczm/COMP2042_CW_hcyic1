@@ -1,6 +1,7 @@
 package com.hcyic1.highscore;
 
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class HighScore {
     // future: could take brick hardness and time into account
@@ -37,6 +38,13 @@ public class HighScore {
         this.bricksDestroyed = bricksDestroyed;
         resetScore();
         resetScoreMultiplier();
+    }
+
+    public HighScore(String name, int ballsUsed, int bricksDestroyed, float score) {
+        this.name = name;
+        this.ballsUsed = ballsUsed;
+        this.bricksDestroyed = bricksDestroyed;
+        this.score = score;
     }
 
     // score calculation
@@ -125,5 +133,29 @@ public class HighScore {
 
     public float getScoreMultiplier() {
         return scoreMultiplier;
+    }
+
+    public String scoreToString() {
+        return String.format(
+                "%s, %d, %d, %.1f\n",
+                this.getName(),
+                this.getBallsUsed(),
+                this.getBricksDestroyed(),
+                this.getScore()
+        );
+    }
+
+    public String[] scoreToSeparatedStrings() {
+        ArrayList<String> res = new ArrayList<>();
+        res.add(this.name);
+        res.add(String.format("%d", this.getBallsUsed()));
+        res.add(String.format("%d", this.getBricksDestroyed()));
+        res.add(String.format("%.1f", this.getScore()));
+        return res.toArray(new String[0]);
+    }
+
+    public boolean isBetterThan(HighScore score) {
+        int res = Float.compare(this.getScore(), score.getScore());
+        return res > 0;
     }
 }

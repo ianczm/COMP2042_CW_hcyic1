@@ -47,6 +47,7 @@ public class HighScoreFile {
                 loadScoreFromString(reader.nextLine());
             }
             reader.close();
+            sortByScores();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -68,8 +69,9 @@ public class HighScoreFile {
     public void saveHighScoresToFile() {
         try {
             FileWriter writer = new FileWriter(FILEPATH);
+            sortByScores();
             for (HighScore score: highScores) {
-                writer.write(scoreToString(score));
+                writer.write(score.scoreToString());
             }
             writer.close();
         } catch (IOException e) {
@@ -78,43 +80,40 @@ public class HighScoreFile {
         }
     }
 
-    private String scoreToString(HighScore score) {
-        return String.format(
-                "%s, %d, %d, %.1f",
-                score.getName(),
-                score.getBallsUsed(),
-                score.getBricksDestroyed(),
-                score.getScore()
-        );
-    }
-
     public void addOrUpdateScore(HighScore score) {
-        if (getIdxByName(score.getName()) != SCORE_NOT_FOUND) {
-            removeExistingScore(score.getName());
+
+        if (scoreExists(score)) {
+            HighScore existing = highScores.get(getIdxByName(score.getName()));
+            if (score.isBetterThan(existing)) {
+                highScores.remove(existing);
+                highScores.add(score);
+                sortByScores();
+                saveHighScoresToFile();
+            } else if (existing.equals(score)) {
+                // if the current score is the best score
+                sortByScores();
+                saveHighScoresToFile();
+            }
         }
-        // might be duplicated
-        highScores.add(score);
-        sortByScores();
     }
 
-    public void removeExistingScore(String name) {
-        // no error handling yet
-        highScores.remove(getIdxByName(name));
+    private boolean scoreExists(HighScore score) {
+        return getIdxByName(score.getName()) != SCORE_NOT_FOUND;
     }
 
     private void sortByScores() {
-        int min;
+        int max;
         HighScore temp;
         for (int i = 0; i < highScores.size(); i++) {
-            min = i;
+            max = i;
             for (int j = i + 1; j < highScores.size(); j++) {
-                if (highScores.get(j).getScore() < highScores.get(min).getScore()) {
-                    min = j;
+                if (highScores.get(j).getScore() > highScores.get(max).getScore()) {
+                    max = j;
                 }
             }
             temp = highScores.get(i);
-            highScores.set(i, highScores.get(min));
-            highScores.set(min, temp);
+            highScores.set(i, highScores.get(max));
+            highScores.set(max, temp);
         }
     }
 
@@ -126,5 +125,10 @@ public class HighScoreFile {
             }
         }
         return SCORE_NOT_FOUND;
+    }
+
+    public ArrayList<HighScore> getHighScores() {
+        sortByScores();
+        return highScores;
     }
 }
