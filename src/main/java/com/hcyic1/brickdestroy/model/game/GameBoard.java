@@ -15,13 +15,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.gui;
+package com.hcyic1.brickdestroy.model.game;
 
-import com.hcyic1.ball.Ball;
-import com.hcyic1.brick.Brick;
-import com.hcyic1.debug.DebugConsole;
-import com.hcyic1.platform.Platform;
-import com.hcyic1.level.Level;
+import com.hcyic1.brickdestroy.highscore.HighScoreFile;
+import com.hcyic1.brickdestroy.highscore.HighScoreUserInput;
+import com.hcyic1.brickdestroy.model.ball.Ball;
+import com.hcyic1.brickdestroy.model.brick.Brick;
+import com.hcyic1.brickdestroy.view.DebugConsole;
+import com.hcyic1.brickdestroy.model.platform.Platform;
+import com.hcyic1.brickdestroy.highscore.HighScoreView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +55,7 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
 
     private Timer gameTimer;
 
-    private Level level;
+    public Level level;
 
     private String message;
 
@@ -68,6 +70,8 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
 
     private DebugConsole debugConsole;
 
+    public HighScoreFile highScoreFile = new HighScoreFile();
+    public HighScoreView highScoreView = new HighScoreView(highScoreFile);
 
     public GameBoard(JFrame owner) {
         super();
@@ -87,26 +91,48 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         //initialize the first level
         level.nextLevel();
 
+        // high score intiialisation
+        HighScoreUserInput userInput = new HighScoreUserInput(level.player);
+        System.out.println("Generated new userInput object.");
+        System.out.println("Updating username.");
+        userInput.updateUsername();
+        System.out.println(level.player.getName());
+        highScoreFile.addOrUpdateScore(level.player);
+        System.out.println("Added scores.");
+
         gameTimer = new Timer(10, e -> {
             level.move();
             level.findImpacts();
-            message = String.format("Bricks: %d Balls %d", level.getBrickCount(), level.getBallCount());
+            message = String.format(
+                    "Bricks: %d Balls: %d Score: %.0f Multiplier: %.2f",
+                    level.getBrickCount(),
+                    level.getBallCount(),
+                    level.player.getScore(),
+                    level.player.getScoreMultiplier()
+                    );
             if (level.isBallLost()) {
+                highScoreFile.addOrUpdateScore(level.player);
                 if (level.ballEnd()) {
                     level.wallReset();
                     message = "Game over";
+                    highScoreView.showScoreTable();
                 }
                 level.ballReset();
                 gameTimer.stop();
             } else if (level.isDone()) {
                 if (level.hasLevel()) {
                     message = "Go to Next Level";
+                    // show high score screen
+                    highScoreFile.addOrUpdateScore(level.player);
+                    highScoreView.showScoreTable();
                     gameTimer.stop();
                     level.ballReset();
                     level.wallReset();
                     level.nextLevel();
                 } else {
                     message = "ALL WALLS DESTROYED";
+                    highScoreFile.addOrUpdateScore(level.player);
+                    highScoreView.showScoreTable();
                     gameTimer.stop();
                 }
             }
@@ -134,7 +160,7 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         clear(g2d);
 
         g2d.setColor(Color.BLUE);
-        g2d.drawString(message, 250, 225);
+        g2d.drawString(message, 175, 225);
 
         drawBall(level.ball, g2d);
 
@@ -225,18 +251,10 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         g2d.setFont(menuFont);
         g2d.setColor(MENU_COLOR);
 
-        if (strLen == 0) {
-            FontRenderContext frc = g2d.getFontRenderContext();
-            strLen = menuFont.getStringBounds(PAUSE, frc).getBounds().width;
-        }
+        drawTitleString(g2d, PAUSE);
 
-        int x = (this.getWidth() - strLen) / 2;
-        int y = this.getHeight() / 10;
-
-        g2d.drawString(PAUSE, x, y);
-
-        x = this.getWidth() / 8;
-        y = this.getHeight() / 4;
+        int x = this.getWidth() / 8;
+        int y = this.getHeight() / 4;
 
 
         if (continueButtonRect == null) {
@@ -270,6 +288,18 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         g2d.setColor(tmpColor);
     }
 
+    private void drawTitleString(Graphics2D g2d, String string) {
+        if (strLen == 0) {
+            FontRenderContext frc = g2d.getFontRenderContext();
+            strLen = menuFont.getStringBounds(string, frc).getBounds().width;
+        }
+
+        int x = (this.getWidth() - strLen) / 2;
+        int y = this.getHeight() / 10;
+
+        g2d.drawString(string, x, y);
+    }
+
     @Override
     public void keyTyped(KeyEvent keyEvent) {
     }
@@ -298,6 +328,10 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
             case KeyEvent.VK_F1:
                 if (keyEvent.isAltDown() && keyEvent.isShiftDown())
                     debugConsole.setVisible(true);
+            case KeyEvent.VK_H:
+                // show high score screen
+                highScoreFile.addOrUpdateScore(level.player);
+                highScoreView.showScoreTable();
             default:
                 level.platform.stop();
         }
@@ -320,6 +354,7 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
             message = "Restarting Game...";
             level.ballReset();
             level.wallReset();
+            // need to reset scores
             showPauseMenu = false;
             repaint();
         } else if (exitButtonRect.contains(p)) {

@@ -1,4 +1,4 @@
-package com.hcyic1.brick;
+package com.hcyic1.brickdestroy.model.brick;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

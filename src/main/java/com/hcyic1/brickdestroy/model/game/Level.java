@@ -15,15 +15,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.level;
+package com.hcyic1.brickdestroy.model.game;
 
-import com.hcyic1.ball.Ball;
-import com.hcyic1.ball.RubberBall;
-import com.hcyic1.brick.Brick;
-import com.hcyic1.brick.CementBrick;
-import com.hcyic1.brick.ClayBrick;
-import com.hcyic1.brick.SteelBrick;
-import com.hcyic1.platform.Platform;
+import com.hcyic1.brickdestroy.model.ball.Ball;
+import com.hcyic1.brickdestroy.model.ball.RubberBall;
+import com.hcyic1.brickdestroy.model.brick.Brick;
+import com.hcyic1.brickdestroy.model.brick.CementBrick;
+import com.hcyic1.brickdestroy.model.brick.ClayBrick;
+import com.hcyic1.brickdestroy.model.brick.SteelBrick;
+import com.hcyic1.brickdestroy.highscore.HighScore;
+import com.hcyic1.brickdestroy.model.platform.Platform;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -65,6 +66,9 @@ public class Level {
     private int ballCount;
     private boolean ballLost;
 
+    // prompt user to enter username for registration
+    public HighScore player = new HighScore();
+
     public Level(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
 
         this.startPoint = new Point(ballPos);
@@ -82,8 +86,6 @@ public class Level {
         platform = new Platform((Point) ballPos.clone(), PLAYER_WIDTH, PLAYER_HEIGHT, drawArea);
 
         area = drawArea;
-
-
     }
 
     private void resetBallSpeed() {
@@ -216,19 +218,30 @@ public class Level {
 
     public void findImpacts() {
         if (platform.impact(ball)) {
+            // ball hits platform
             ball.reverseY();
         } else if (impactWall()) {
             /*for efficiency reverse is done into method impactWall
              * because for every brick, program checks for horizontal and vertical impacts
              */
             brickCount--;
-        } else if (hasWallImpact()) {
+            // update score
+            player.incBricksDestroyed();
+            player.updateScore();
+            player.updateScoreMultiplier();
+        } else if (impactFrameSides()) {
+            // ball hits sides
             ball.reverseX();
         } else if (ball.getPosCenter().getY() < area.getY()) {
+            // ball hits ceiling
             ball.reverseY();
         } else if (ball.getPosCenter().getY() > area.getY() + area.getHeight()) {
+            // ball falls out of game screen
             ballCount--;
+            player.incBallsUsed();
             ballLost = true;
+            // reset score multiplier
+            player.resetScoreMultiplier();
         }
     }
 
@@ -259,7 +272,7 @@ public class Level {
         return false;
     }
 
-    private boolean hasWallImpact() {
+    private boolean impactFrameSides() {
         Point2D p = ball.getPosCenter();
         return (impactLeftWall(p) || impactRightWall(p));
     }

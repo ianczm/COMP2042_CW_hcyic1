@@ -1,4 +1,4 @@
-package com.hcyic1.brick;
+package com.hcyic1.brickdestroy.model.brick;
 
 // import Java packages
 
@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 // import game packages
-import com.hcyic1.ball.Ball;
+import com.hcyic1.brickdestroy.model.ball.Ball;
 
 /**
  * Created by filippo on 04/09/16.

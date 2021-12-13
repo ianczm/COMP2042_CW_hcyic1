@@ -15,7 +15,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.gui;
+package com.hcyic1.brickdestroy.view;
+
+import com.hcyic1.brickdestroy.highscore.HighScore;
+import com.hcyic1.brickdestroy.highscore.HighScoreUserInput;
+import com.hcyic1.brickdestroy.model.game.GameBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +36,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
     private static final int SPLASH_HEIGHT = 300;
 
     private final GameBoard gameBoard;
-    private final SplashScreen splashScreen;
+    private final SplashFrame splashFrame;
 
     private boolean windowFocused;
 
@@ -49,7 +53,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
         this.setLayout(new BorderLayout());
 
         gameBoard = new GameBoard(this);
-        splashScreen = new SplashScreen(this, new Dimension(SPLASH_WIDTH, SPLASH_HEIGHT));
+        splashFrame = new SplashFrame(this, new Dimension(SPLASH_WIDTH, SPLASH_HEIGHT));
 
         displaySplashScreen();
 
@@ -72,7 +76,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
      * else is currently displayed.
      */
     private void displaySplashScreen() {
-        this.add(splashScreen, BorderLayout.CENTER);
+        this.add(splashFrame, BorderLayout.CENTER);
         this.setUndecorated(true);
     }
 
@@ -81,24 +85,21 @@ public class GameFrame extends JFrame implements WindowFocusListener {
      * This method assumes splashScreen is already displayed.
      */
     public void displayGameBoard() {
+
         this.dispose();
-        this.remove(splashScreen);
+        this.remove(splashFrame);
         this.add(gameBoard, BorderLayout.CENTER);
         this.setUndecorated(false);
         initialize();
         /*to avoid problems with graphics, focus controller is added here*/
         this.addWindowFocusListener(this);
-
     }
 
     /**
      * Centres the window on the main display.
      */
     private void autoCentreWindow() {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (size.width - this.getWidth()) / 2;
-        int y = (size.height - this.getHeight()) / 2;
-        this.setLocation(x, y);
+        this.setLocationRelativeTo(null);
     }
 
     /**
