@@ -23,6 +23,7 @@ import com.hcyic1.brick.Brick;
 import com.hcyic1.brick.CementBrick;
 import com.hcyic1.brick.ClayBrick;
 import com.hcyic1.brick.SteelBrick;
+import com.hcyic1.highscore.HighScore;
 import com.hcyic1.platform.Platform;
 
 import java.awt.*;
@@ -64,6 +65,9 @@ public class Level {
     private int brickCount;
     private int ballCount;
     private boolean ballLost;
+
+    // add naming/registration system in later
+    public HighScore player = new HighScore("hcyic1");
 
     public Level(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
 
@@ -216,19 +220,30 @@ public class Level {
 
     public void findImpacts() {
         if (platform.impact(ball)) {
+            // ball hits platform
             ball.reverseY();
         } else if (impactWall()) {
             /*for efficiency reverse is done into method impactWall
              * because for every brick, program checks for horizontal and vertical impacts
              */
             brickCount--;
-        } else if (hasWallImpact()) {
+            // update score
+            player.incBricksDestroyed();
+            player.updateScore();
+            player.updateScoreMultiplier();
+        } else if (impactFrameSides()) {
+            // ball hits sides
             ball.reverseX();
         } else if (ball.getPosCenter().getY() < area.getY()) {
+            // ball hits ceiling
             ball.reverseY();
         } else if (ball.getPosCenter().getY() > area.getY() + area.getHeight()) {
+            // ball falls out of game screen
             ballCount--;
+            player.incBallsUsed();
             ballLost = true;
+            // reset score multiplier
+            player.resetScoreMultiplier();
         }
     }
 
@@ -259,7 +274,7 @@ public class Level {
         return false;
     }
 
-    private boolean hasWallImpact() {
+    private boolean impactFrameSides() {
         Point2D p = ball.getPosCenter();
         return (impactLeftWall(p) || impactRightWall(p));
     }
