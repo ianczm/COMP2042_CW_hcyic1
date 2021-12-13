@@ -94,6 +94,10 @@ public class HighScoreFile {
                 sortByScores();
                 saveHighScoresToFile();
             }
+        } else {
+            highScores.add(score);
+            sortByScores();
+            saveHighScoresToFile();
         }
     }
 
