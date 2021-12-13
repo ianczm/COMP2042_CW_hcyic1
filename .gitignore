@@ -31,3 +31,11 @@ hs_err_pid*
 # force-add it if you just created it
 !/.gitignore
 COMP2042_CW_hcyic1.iml
+target/classes/META-INF/MANIFEST.MF
+target/maven-archiver/pom.properties
+target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+target/surefire-reports/com.hcyic1.ExampleTest.txt
+target/surefire-reports/TEST-com.hcyic1.ExampleTest.xml
