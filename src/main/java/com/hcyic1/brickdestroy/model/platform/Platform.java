@@ -15,9 +15,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.model.platform;
+package com.hcyic1.brickdestroy.model.platform;
 
-import com.hcyic1.model.ball.Ball;
+import com.hcyic1.brickdestroy.model.ball.Ball;
 
 import java.awt.*;
 

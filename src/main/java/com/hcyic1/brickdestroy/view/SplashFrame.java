@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.view;
+package com.hcyic1.brickdestroy.view;
 
 import javax.swing.*;
 import java.awt.*;

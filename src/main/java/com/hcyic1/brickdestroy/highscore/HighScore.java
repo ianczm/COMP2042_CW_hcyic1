@@ -1,4 +1,4 @@
-package com.hcyic1.highscore;
+package com.hcyic1.brickdestroy.highscore;
 
 import java.lang.Math;
 import java.util.ArrayList;
@@ -28,14 +28,6 @@ public class HighScore {
         this.ballsUsed = 1;
         this.bricksDestroyed = 0;
         this.currentBallBrickCount = 0;
-        resetScore();
-        resetScoreMultiplier();
-    }
-
-    public HighScore(String name, int ballsUsed, int bricksDestroyed) {
-        this.name = name;
-        this.ballsUsed = ballsUsed;
-        this.bricksDestroyed = bricksDestroyed;
         resetScore();
         resetScoreMultiplier();
     }

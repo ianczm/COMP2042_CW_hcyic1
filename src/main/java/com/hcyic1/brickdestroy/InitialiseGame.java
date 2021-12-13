@@ -15,9 +15,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1;
+package com.hcyic1.brickdestroy;
 
-import com.hcyic1.view.GameFrame;
+import com.hcyic1.brickdestroy.view.GameFrame;
 
 import java.awt.*;
 
@@ -27,5 +27,4 @@ public class InitialiseGame {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> new GameFrame().initialize());
     }
-
 }

@@ -1,4 +1,4 @@
-package com.hcyic1.highscore;
+package com.hcyic1.brickdestroy.highscore;
 
 import org.junit.jupiter.api.Test;
 

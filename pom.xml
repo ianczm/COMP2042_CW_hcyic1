@@ -16,9 +16,9 @@
                 <version>3.2.0</version>
                 <configuration>
                     <archive>
-                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+<!--                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>-->
                         <manifest>
-                            <mainClass>com.hcyic1.InitialiseGame</mainClass>
+                            <mainClass>com.hcyic1.brickdestroy.InitialiseGame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -15,14 +15,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.model.game;
+package com.hcyic1.brickdestroy.model.game;
 
-import com.hcyic1.highscore.HighScoreFile;
-import com.hcyic1.model.ball.Ball;
-import com.hcyic1.model.brick.Brick;
-import com.hcyic1.view.DebugConsole;
-import com.hcyic1.model.platform.Platform;
-import com.hcyic1.highscore.HighScoreView;
+import com.hcyic1.brickdestroy.highscore.HighScoreFile;
+import com.hcyic1.brickdestroy.model.ball.Ball;
+import com.hcyic1.brickdestroy.model.brick.Brick;
+import com.hcyic1.brickdestroy.view.DebugConsole;
+import com.hcyic1.brickdestroy.model.platform.Platform;
+import com.hcyic1.brickdestroy.highscore.HighScoreView;
 
 import javax.swing.*;
 import java.awt.*;

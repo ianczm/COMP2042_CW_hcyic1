@@ -1,4 +1,4 @@
-package com.hcyic1.model.ball;
+package com.hcyic1.brickdestroy.model.ball;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
