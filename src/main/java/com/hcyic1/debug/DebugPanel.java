@@ -17,7 +17,7 @@
  */
 package com.hcyic1.debug;
 
-import com.hcyic1.wall.Wall;
+import com.hcyic1.level.Level;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -34,11 +34,11 @@ public class DebugPanel extends JPanel {
     private JSlider ballXSpeed;
     private JSlider ballYSpeed;
 
-    public DebugPanel(Wall wall) {
+    public DebugPanel(Level level) {
 
         initialize();
-        addDebugButtons(wall);
-        addDebugSliders(wall);
+        addDebugButtons(level);
+        addDebugSliders(level);
 
     }
 
@@ -53,11 +53,11 @@ public class DebugPanel extends JPanel {
         return out;
     }
 
-    private void addDebugButtons(Wall wall) {
-        JButton skipLevel = makeButton("Skip Level", e -> wall.nextLevel());
+    private void addDebugButtons(Level level) {
+        JButton skipLevel = makeButton("Skip Level", e -> level.nextLevel());
         this.add(skipLevel);
 
-        JButton resetBalls = makeButton("Reset Balls", e -> wall.resetBallCount());
+        JButton resetBalls = makeButton("Reset Balls", e -> level.resetBallCount());
         this.add(resetBalls);
     }
 
@@ -70,11 +70,11 @@ public class DebugPanel extends JPanel {
         return out;
     }
 
-    private void addDebugSliders(Wall wall) {
-        ballXSpeed = makeSlider(Wall.MIN_SPEED_X, Wall.MAX_SPEED_X, e -> wall.setBallXSpeed(ballXSpeed.getValue()));
+    private void addDebugSliders(Level level) {
+        ballXSpeed = makeSlider(Level.MIN_SPEED_X, Level.MAX_SPEED_X, e -> level.setBallXSpeed(ballXSpeed.getValue()));
         this.add(ballXSpeed);
 
-        ballYSpeed = makeSlider(Wall.MIN_SPEED_Y, Wall.MAX_SPEED_Y, e -> wall.setBallYSpeed(ballYSpeed.getValue()));
+        ballYSpeed = makeSlider(Level.MIN_SPEED_Y, Level.MAX_SPEED_Y, e -> level.setBallYSpeed(ballYSpeed.getValue()));
         this.add(ballYSpeed);
     }
 

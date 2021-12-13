@@ -15,14 +15,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.player;
+package com.hcyic1.platform;
 
 import com.hcyic1.ball.Ball;
 
 import java.awt.*;
 
 
-public class Player {
+public class Platform {
 
 
     public static final Color BORDER_COLOR = Color.GREEN.darker().darker();
@@ -30,17 +30,17 @@ public class Player {
 
     private static final int DEF_MOVE_AMOUNT = 5;
 
-    private Rectangle playerFace;
+    private Rectangle platformFace;
     private Point ballPoint;
     private int moveAmount;
     private int min;
     private int max;
 
 
-    public Player(Point ballPoint, int width, int height, Rectangle container) {
+    public Platform(Point ballPoint, int width, int height, Rectangle container) {
         this.ballPoint = ballPoint;
         moveAmount = 0;
-        playerFace = makeRectangle(width, height);
+        platformFace = makeRectangle(width, height);
         min = container.x + (width / 2);
         max = min + container.width - width;
 
@@ -52,7 +52,7 @@ public class Player {
     }
 
     public boolean impact(Ball b) {
-        return playerFace.contains(b.getPosCenter()) && playerFace.contains(b.getPosDown());
+        return platformFace.contains(b.getPosCenter()) && platformFace.contains(b.getPosDown());
     }
 
     public void move() {
@@ -60,7 +60,7 @@ public class Player {
         if (x < min || x > max)
             return;
         ballPoint.setLocation(x, ballPoint.getY());
-        playerFace.setLocation(ballPoint.x - (int) playerFace.getWidth() / 2, ballPoint.y);
+        platformFace.setLocation(ballPoint.x - (int) platformFace.getWidth() / 2, ballPoint.y);
     }
 
     public void moveLeft() {
@@ -75,12 +75,12 @@ public class Player {
         moveAmount = 0;
     }
 
-    public Shape getPlayerFace() {
-        return playerFace;
+    public Shape getPlatformFace() {
+        return platformFace;
     }
 
     public void moveTo(Point p) {
         ballPoint.setLocation(p);
-        playerFace.setLocation(ballPoint.x - (int) playerFace.getWidth() / 2, ballPoint.y);
+        platformFace.setLocation(ballPoint.x - (int) platformFace.getWidth() / 2, ballPoint.y);
     }
 }

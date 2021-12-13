@@ -5,7 +5,7 @@ original [Brick Destroy game by FilippoRanza](https://github.com/FilippoRanza/Br
 
 ### Brick Destroy Description
 
-This is a simple arcade video game. The player's goal is to destroy a wall with a small ball.
+This is a simple arcade video game. The player's goal is to destroy a level with a small ball.
 
 Here are the key binds to play the game.
 - `SPACE` to start or pause the game

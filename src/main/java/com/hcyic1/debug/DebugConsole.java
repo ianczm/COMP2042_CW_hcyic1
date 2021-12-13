@@ -19,7 +19,7 @@ package com.hcyic1.debug;
 
 import com.hcyic1.ball.Ball;
 import com.hcyic1.gui.GameBoard;
-import com.hcyic1.wall.Wall;
+import com.hcyic1.level.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,17 +34,17 @@ public class DebugConsole extends JDialog implements WindowListener {
     private final JFrame owner;
     private final DebugPanel debugPanel;
     private final GameBoard gameBoard;
-    private final Wall wall;
+    private final Level level;
 
 
-    public DebugConsole(JFrame owner, Wall wall, GameBoard gameBoard) {
+    public DebugConsole(JFrame owner, Level level, GameBoard gameBoard) {
 
-        this.wall = wall;
+        this.level = level;
         this.owner = owner;
         this.gameBoard = gameBoard;
         initialize();
 
-        debugPanel = new DebugPanel(wall);
+        debugPanel = new DebugPanel(level);
         this.add(debugPanel, BorderLayout.CENTER);
 
 
@@ -96,7 +96,7 @@ public class DebugConsole extends JDialog implements WindowListener {
     @Override
     public void windowActivated(WindowEvent windowEvent) {
         setLocation();
-        Ball b = wall.ball;
+        Ball b = level.ball;
         debugPanel.setSpeeds(b.getSpeedX(), b.getSpeedY());
     }
 

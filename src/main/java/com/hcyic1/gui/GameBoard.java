@@ -20,8 +20,8 @@ package com.hcyic1.gui;
 import com.hcyic1.ball.Ball;
 import com.hcyic1.brick.Brick;
 import com.hcyic1.debug.DebugConsole;
-import com.hcyic1.player.Player;
-import com.hcyic1.wall.Wall;
+import com.hcyic1.platform.Platform;
+import com.hcyic1.level.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,15 +41,19 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
     private static final int TEXT_SIZE = 30;
     private static final Color MENU_COLOR = new Color(0, 255, 0);
 
-
     private static final int DEF_WIDTH = 600;
     private static final int DEF_HEIGHT = 450;
 
     private static final Color BG_COLOR = Color.WHITE;
+    public static final int BRICK_COUNT = 30;
+    public static final int LINE_COUNT = 3;
+    public static final int INITIAL_BALL_POS_X = 300;
+    public static final int INITIAL_BALL_POS_Y = 430;
+    public static final int BRICK_DIMENSION_RATIO = 6 / 2;
 
     private Timer gameTimer;
 
-    private Wall wall;
+    private Level level;
 
     private String message;
 
@@ -77,30 +81,30 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
 
         this.initialize();
         message = "";
-        wall = new Wall(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), 30, 3, 6 / 2, new Point(300, 430));
+        level = new Level(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), BRICK_COUNT, LINE_COUNT, BRICK_DIMENSION_RATIO, new Point(INITIAL_BALL_POS_X, INITIAL_BALL_POS_Y));
 
-        debugConsole = new DebugConsole(owner, wall, this);
+        debugConsole = new DebugConsole(owner, level, this);
         //initialize the first level
-        wall.nextLevel();
+        level.nextLevel();
 
         gameTimer = new Timer(10, e -> {
-            wall.move();
-            wall.findImpacts();
-            message = String.format("Bricks: %d Balls %d", wall.getBrickCount(), wall.getBallCount());
-            if (wall.isBallLost()) {
-                if (wall.ballEnd()) {
-                    wall.wallReset();
+            level.move();
+            level.findImpacts();
+            message = String.format("Bricks: %d Balls %d", level.getBrickCount(), level.getBallCount());
+            if (level.isBallLost()) {
+                if (level.ballEnd()) {
+                    level.wallReset();
                     message = "Game over";
                 }
-                wall.ballReset();
+                level.ballReset();
                 gameTimer.stop();
-            } else if (wall.isDone()) {
-                if (wall.hasLevel()) {
+            } else if (level.isDone()) {
+                if (level.hasLevel()) {
                     message = "Go to Next Level";
                     gameTimer.stop();
-                    wall.ballReset();
-                    wall.wallReset();
-                    wall.nextLevel();
+                    level.ballReset();
+                    level.wallReset();
+                    level.nextLevel();
                 } else {
                     message = "ALL WALLS DESTROYED";
                     gameTimer.stop();
@@ -132,13 +136,13 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         g2d.setColor(Color.BLUE);
         g2d.drawString(message, 250, 225);
 
-        drawBall(wall.ball, g2d);
+        drawBall(level.ball, g2d);
 
-        for (Brick b : wall.bricks)
+        for (Brick b : level.bricks)
             if (!b.isBroken())
                 drawBrick(b, g2d);
 
-        drawPlayer(wall.player, g2d);
+        drawPlayer(level.platform, g2d);
 
         if (showPauseMenu)
             drawMenu(g2d);
@@ -180,14 +184,14 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         g2d.setColor(tmp);
     }
 
-    private void drawPlayer(Player p, Graphics2D g2d) {
+    private void drawPlayer(Platform p, Graphics2D g2d) {
         Color tmp = g2d.getColor();
 
-        Shape s = p.getPlayerFace();
-        g2d.setColor(Player.INNER_COLOR);
+        Shape s = p.getPlatformFace();
+        g2d.setColor(Platform.INNER_COLOR);
         g2d.fill(s);
 
-        g2d.setColor(Player.BORDER_COLOR);
+        g2d.setColor(Platform.BORDER_COLOR);
         g2d.draw(s);
 
         g2d.setColor(tmp);
@@ -274,10 +278,10 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_A:
-                wall.player.moveLeft();
+                level.platform.moveLeft();
                 break;
             case KeyEvent.VK_D:
-                wall.player.movRight();
+                level.platform.movRight();
                 break;
             case KeyEvent.VK_ESCAPE:
                 showPauseMenu = !showPauseMenu;
@@ -295,13 +299,13 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
                 if (keyEvent.isAltDown() && keyEvent.isShiftDown())
                     debugConsole.setVisible(true);
             default:
-                wall.player.stop();
+                level.platform.stop();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        wall.player.stop();
+        level.platform.stop();
     }
 
     @Override
@@ -314,8 +318,8 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
             repaint();
         } else if (restartButtonRect.contains(p)) {
             message = "Restarting Game...";
-            wall.ballReset();
-            wall.wallReset();
+            level.ballReset();
+            level.wallReset();
             showPauseMenu = false;
             repaint();
         } else if (exitButtonRect.contains(p)) {

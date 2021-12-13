@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.wall;
+package com.hcyic1.level;
 
 import com.hcyic1.ball.Ball;
 import com.hcyic1.ball.RubberBall;
@@ -23,14 +23,14 @@ import com.hcyic1.brick.Brick;
 import com.hcyic1.brick.CementBrick;
 import com.hcyic1.brick.ClayBrick;
 import com.hcyic1.brick.SteelBrick;
-import com.hcyic1.player.Player;
+import com.hcyic1.platform.Platform;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class Wall {
+public class Level {
 
     private static final int LEVELS_COUNT = 4;
 
@@ -44,17 +44,18 @@ public class Wall {
     public static final int PLAYER_HEIGHT = 10;
 
     // Ball speeds
-    public static final int MAX_SPEED_X = 3;
-    public static final int MAX_SPEED_Y = 3;
-    public static final int MIN_SPEED_X = -3;
-    public static final int MIN_SPEED_Y = 1;
+    // original, 3 3 -3 1
+    public static final int MAX_SPEED_X = 6;
+    public static final int MAX_SPEED_Y = 6;
+    public static final int MIN_SPEED_X = -6;
+    public static final int MIN_SPEED_Y = 3;
 
     private Rectangle area;
 
     // to be shared publicly
     public Brick[] bricks;
     public Ball ball;
-    public Player player;
+    public Platform platform;
 
     private Brick[][] levels;
     private int level;
@@ -64,7 +65,7 @@ public class Wall {
     private int ballCount;
     private boolean ballLost;
 
-    public Wall(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
+    public Level(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
 
         this.startPoint = new Point(ballPos);
 
@@ -78,7 +79,7 @@ public class Wall {
 
         resetBallSpeed();
 
-        player = new Player((Point) ballPos.clone(), PLAYER_WIDTH, PLAYER_HEIGHT, drawArea);
+        platform = new Platform((Point) ballPos.clone(), PLAYER_WIDTH, PLAYER_HEIGHT, drawArea);
 
         area = drawArea;
 
@@ -157,12 +158,12 @@ public class Wall {
          */
         brickCnt -= brickCnt % lineCnt;
 
-        int brickOnLine = brickCnt / lineCnt;
+        int numBricksOnLine = brickCnt / lineCnt;
 
-        int centerLeft = brickOnLine / 2 - 1;
-        int centerRight = brickOnLine / 2 + 1;
+        int centerLeft = numBricksOnLine / 2 - 1;
+        int centerRight = numBricksOnLine / 2 + 1;
 
-        double brickLen = drawArea.getWidth() / brickOnLine;
+        double brickLen = drawArea.getWidth() / numBricksOnLine;
         double brickHgt = brickLen / brickSizeRatio;
 
         brickCnt += lineCnt / 2;
@@ -174,10 +175,10 @@ public class Wall {
 
         int i;
         for (i = 0; i < tmp.length; i++) {
-            int line = i / brickOnLine;
+            int line = i / numBricksOnLine;
             if (line == lineCnt)
                 break;
-            int posX = i % brickOnLine;
+            int posX = i % numBricksOnLine;
             double x = posX * brickLen;
             x = (line % 2 == 0) ? x : (x - (brickLen / 2));
             double y = (line) * brickHgt;
@@ -188,7 +189,7 @@ public class Wall {
         }
 
         for (double y = brickHgt; i < tmp.length; i++, y += 2 * brickHgt) {
-            double x = (brickOnLine * brickLen) - (brickLen / 2);
+            double x = (numBricksOnLine * brickLen) - (brickLen / 2);
             p.setLocation(x, y);
             tmp[i] = makeBrick(p, brickSize, typeA);
         }
@@ -209,12 +210,12 @@ public class Wall {
     }
 
     public void move() {
-        player.move();
+        platform.move();
         ball.move();
     }
 
     public void findImpacts() {
-        if (player.impact(ball)) {
+        if (platform.impact(ball)) {
             ball.reverseY();
         } else if (impactWall()) {
             /*for efficiency reverse is done into method impactWall
@@ -284,7 +285,7 @@ public class Wall {
     }
 
     public void ballReset() {
-        player.moveTo(startPoint);
+        platform.moveTo(startPoint);
         ball.moveTo(startPoint);
         resetBallSpeed();
         ballLost = false;
