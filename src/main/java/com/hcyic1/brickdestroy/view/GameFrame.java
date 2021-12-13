@@ -17,6 +17,8 @@
  */
 package com.hcyic1.brickdestroy.view;
 
+import com.hcyic1.brickdestroy.highscore.HighScore;
+import com.hcyic1.brickdestroy.highscore.HighScoreUserInput;
 import com.hcyic1.brickdestroy.model.game.GameBoard;
 
 import javax.swing.*;
@@ -83,6 +85,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
      * This method assumes splashScreen is already displayed.
      */
     public void displayGameBoard() {
+
         this.dispose();
         this.remove(splashFrame);
         this.add(gameBoard, BorderLayout.CENTER);
@@ -90,17 +93,13 @@ public class GameFrame extends JFrame implements WindowFocusListener {
         initialize();
         /*to avoid problems with graphics, focus controller is added here*/
         this.addWindowFocusListener(this);
-
     }
 
     /**
      * Centres the window on the main display.
      */
     private void autoCentreWindow() {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (size.width - this.getWidth()) / 2;
-        int y = (size.height - this.getHeight()) / 2;
-        this.setLocation(x, y);
+        this.setLocationRelativeTo(null);
     }
 
     /**

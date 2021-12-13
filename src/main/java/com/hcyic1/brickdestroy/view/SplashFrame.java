@@ -53,6 +53,9 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
     private Rectangle startButton;
     private Rectangle menuButton;
 
+    private JTextField textField;
+    private JButton submitButton;
+
     private BasicStroke borderStoke;
     private BasicStroke borderStoke_noDashes;
 
@@ -288,7 +291,6 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
         Point p = mouseEvent.getPoint();
         if (startButton.contains(p)) {
             gameFrame.displayGameBoard();
-
         } else if (menuButton.contains(p)) {
             System.out.println("Goodbye " + System.getProperty("user.name"));
             System.exit(0);

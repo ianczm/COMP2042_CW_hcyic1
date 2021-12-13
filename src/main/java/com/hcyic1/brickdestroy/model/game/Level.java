@@ -66,8 +66,8 @@ public class Level {
     private int ballCount;
     private boolean ballLost;
 
-    // add naming/registration system in later
-    public HighScore player = new HighScore("hcyic1");
+    // prompt user to enter username for registration
+    public HighScore player = new HighScore();
 
     public Level(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
 
@@ -86,8 +86,6 @@ public class Level {
         platform = new Platform((Point) ballPos.clone(), PLAYER_WIDTH, PLAYER_HEIGHT, drawArea);
 
         area = drawArea;
-
-
     }
 
     private void resetBallSpeed() {

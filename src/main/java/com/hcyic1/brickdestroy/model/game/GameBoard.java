@@ -17,7 +17,9 @@
  */
 package com.hcyic1.brickdestroy.model.game;
 
+import com.hcyic1.brickdestroy.highscore.HighScore;
 import com.hcyic1.brickdestroy.highscore.HighScoreFile;
+import com.hcyic1.brickdestroy.highscore.HighScoreUserInput;
 import com.hcyic1.brickdestroy.model.ball.Ball;
 import com.hcyic1.brickdestroy.model.brick.Brick;
 import com.hcyic1.brickdestroy.view.DebugConsole;
@@ -54,7 +56,7 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
 
     private Timer gameTimer;
 
-    private Level level;
+    public Level level;
 
     private String message;
 
@@ -91,6 +93,9 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         level.nextLevel();
 
         // high score intiialisation
+        HighScoreUserInput userInput = new HighScoreUserInput(level.player);
+        userInput.showUserPrompt();
+        System.out.println(level.player.getName());
         highScoreFile.addOrUpdateScore(level.player);
 
         gameTimer = new Timer(10, e -> {

@@ -1,5 +1,6 @@
 package com.hcyic1.brickdestroy.highscore;
 
+import javax.swing.*;
 import java.lang.Math;
 import java.util.ArrayList;
 
@@ -21,11 +22,16 @@ public class HighScore {
     private float score;
 
     public HighScore() {
+        this.ballsUsed = 0;
+        this.bricksDestroyed = 0;
+        this.currentBallBrickCount = 0;
+        resetScore();
+        resetScoreMultiplier();
     }
 
     public HighScore(String name) {
         this.name = name;
-        this.ballsUsed = 1;
+        this.ballsUsed = 0;
         this.bricksDestroyed = 0;
         this.currentBallBrickCount = 0;
         resetScore();
