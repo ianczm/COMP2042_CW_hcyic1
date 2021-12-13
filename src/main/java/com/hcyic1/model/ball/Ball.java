@@ -1,4 +1,4 @@
-package com.hcyic1.ball;
+package com.hcyic1.model.ball;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

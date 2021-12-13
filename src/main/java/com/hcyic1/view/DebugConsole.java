@@ -15,11 +15,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.debug;
+package com.hcyic1.view;
 
-import com.hcyic1.ball.Ball;
-import com.hcyic1.gui.GameBoard;
-import com.hcyic1.level.Level;
+import com.hcyic1.model.ball.Ball;
+import com.hcyic1.model.game.GameBoard;
+import com.hcyic1.model.game.Level;
 
 import javax.swing.*;
 import java.awt.*;

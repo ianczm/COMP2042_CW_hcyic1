@@ -15,7 +15,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.gui;
+package com.hcyic1.view;
+
+import com.hcyic1.model.game.GameBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +34,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
     private static final int SPLASH_HEIGHT = 300;
 
     private final GameBoard gameBoard;
-    private final SplashScreen splashScreen;
+    private final SplashFrame splashFrame;
 
     private boolean windowFocused;
 
@@ -49,7 +51,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
         this.setLayout(new BorderLayout());
 
         gameBoard = new GameBoard(this);
-        splashScreen = new SplashScreen(this, new Dimension(SPLASH_WIDTH, SPLASH_HEIGHT));
+        splashFrame = new SplashFrame(this, new Dimension(SPLASH_WIDTH, SPLASH_HEIGHT));
 
         displaySplashScreen();
 
@@ -72,7 +74,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
      * else is currently displayed.
      */
     private void displaySplashScreen() {
-        this.add(splashScreen, BorderLayout.CENTER);
+        this.add(splashFrame, BorderLayout.CENTER);
         this.setUndecorated(true);
     }
 
@@ -82,7 +84,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
      */
     public void displayGameBoard() {
         this.dispose();
-        this.remove(splashScreen);
+        this.remove(splashFrame);
         this.add(gameBoard, BorderLayout.CENTER);
         this.setUndecorated(false);
         initialize();

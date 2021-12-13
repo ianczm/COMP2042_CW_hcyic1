@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.gui;
+package com.hcyic1.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,7 @@ import java.awt.geom.Rectangle2D;
  * The splash screen of the game that shows game title, version number
  * and start/exit buttons.
  */
-public class SplashScreen extends JComponent implements MouseListener, MouseMotionListener {
+public class SplashFrame extends JComponent implements MouseListener, MouseMotionListener {
 
     private static final String GREETINGS = "Welcome to:";
     private static final String GAME_TITLE = "Brick Destroy";
@@ -73,7 +73,7 @@ public class SplashScreen extends JComponent implements MouseListener, MouseMoti
      * @param gameFrame the parent gameFrame that would contain this splash screen.
      * @param area width and height of the parent frame.
      */
-    public SplashScreen(GameFrame gameFrame, Dimension area) {
+    public SplashFrame(GameFrame gameFrame, Dimension area) {
 
         this.gameFrame = gameFrame;
 

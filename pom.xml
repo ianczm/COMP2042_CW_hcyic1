@@ -18,7 +18,7 @@
                     <archive>
                         <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
                         <manifest>
-                            <mainClass>com.hcyic1.GraphicsMain</mainClass>
+                            <mainClass>com.hcyic1.InitialiseGame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

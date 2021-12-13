@@ -17,12 +17,12 @@
  */
 package com.hcyic1;
 
-import com.hcyic1.gui.GameFrame;
+import com.hcyic1.view.GameFrame;
 
 import java.awt.*;
 
 
-public class GraphicsMain {
+public class InitialiseGame {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> new GameFrame().initialize());

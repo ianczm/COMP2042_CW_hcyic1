@@ -1,4 +1,4 @@
-package com.hcyic1.brick;
+package com.hcyic1.model.brick;
 
 import java.awt.*;
 import java.awt.Point;

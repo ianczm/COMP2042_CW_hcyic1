@@ -15,16 +15,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.level;
+package com.hcyic1.model.game;
 
-import com.hcyic1.ball.Ball;
-import com.hcyic1.ball.RubberBall;
-import com.hcyic1.brick.Brick;
-import com.hcyic1.brick.CementBrick;
-import com.hcyic1.brick.ClayBrick;
-import com.hcyic1.brick.SteelBrick;
+import com.hcyic1.model.ball.Ball;
+import com.hcyic1.model.ball.RubberBall;
+import com.hcyic1.model.brick.Brick;
+import com.hcyic1.model.brick.CementBrick;
+import com.hcyic1.model.brick.ClayBrick;
+import com.hcyic1.model.brick.SteelBrick;
 import com.hcyic1.highscore.HighScore;
-import com.hcyic1.platform.Platform;
+import com.hcyic1.model.platform.Platform;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
