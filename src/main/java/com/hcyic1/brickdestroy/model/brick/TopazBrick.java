@@ -22,19 +22,18 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 
-public class SteelBrick extends Brick {
+public class TopazBrick extends Brick {
 
-    private static final String NAME = "Steel Brick";
-    private static final Color DEF_INNER = new Color(203, 203, 201);
+    private static final Color DEF_INNER = new Color(225, 200, 50);
     private static final Color DEF_BORDER = Color.BLACK;
-    private static final int STEEL_STRENGTH = 1;
-    private static final double STEEL_PROBABILITY = 0.4;
+    private static final int BRICK_STRENGTH = 2;
+    private static final double BREAK_PROBABILITY = 0.8;
 
     private Random rnd;
     private Shape brickFace;
 
-    public SteelBrick(Point point, Dimension size) {
-        super(NAME, point, size, DEF_BORDER, DEF_INNER, STEEL_STRENGTH);
+    public TopazBrick(Point point, Dimension size) {
+        super(point, size, DEF_BORDER, DEF_INNER, BRICK_STRENGTH);
         rnd = new Random();
         brickFace = super.brickFace;
     }
@@ -58,7 +57,7 @@ public class SteelBrick extends Brick {
     }
 
     public void impact() {
-        if (rnd.nextDouble() < STEEL_PROBABILITY) {
+        if (rnd.nextDouble() < BREAK_PROBABILITY) {
             super.impact();
         }
     }
