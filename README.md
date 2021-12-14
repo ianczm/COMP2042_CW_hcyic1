@@ -97,7 +97,14 @@ challenging and interesting as well. Levels are listed in order of difficulty.
 - Granite and emerald
 - Full emerald
 
-# Refactoring Activities
+# Project Refactoring and Maintenance
+
+## Maven and Unit Testing
+
+Introduced Maven to structure the project files according to an established archetype and
+build `.jar` executable files to be run on other computers. Also has support for JUnit 5 unit tests.
+
+There are currently detailed unit tests written for `leaderboards`, `ball`, `brick` and `platform`.
 
 ## MVC Design Pattern
 
