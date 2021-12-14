@@ -3,8 +3,6 @@
 This individual coursework aims to apply Software Maintenance principles to the
 original [Brick Destroy game by FilippoRanza](https://github.com/FilippoRanza/Brick_Destroy).
 
----
-
 # Brick Destroy 2.0
 
 This is a simple arcade video game. The player's goal is to destroy a level with a small ball.
@@ -18,8 +16,6 @@ Here are the key binds to play the game.
 
 The game automatically pauses if the window loses focus.
 
----
-
 # Added Features
 
 ## Documentation
@@ -29,20 +25,14 @@ The game automatically pauses if the window loses focus.
 - This is to help the user get familiar with the game, especially if they are new.
 - Appears in a formatted pop-up screen when user presses on the `Info` button in the main menu.
 
----
-
 ### JavaDocs
 
 - This is to help fellow developers contribute with better understanding.
 - JavaDocs are available for most new features such as scoring and new game behaviour.
 
----
-
 ### GitHub Readme
 
 - Aims to provide a summary of changes made throughout this coursework.
-
----
 
 ## Scoring
 
@@ -55,8 +45,6 @@ The game automatically pauses if the window loses focus.
 - The combo is lost each time the ball is lost.
 - The combo is a function of a logarithmic curve to prevent exceedingly high scores.
 
----
-
 ### Leaderboards
 
 - This is to encourage friendly competition among users.
@@ -65,13 +53,9 @@ The game automatically pauses if the window loses focus.
 - Stores are scored in a `highscores.txt` file for persistence.
 - Ranks from best to worst.
 
----
-
 ### User Identification
 
 - Before the game, users will be prompted to input their username to represent themselves on the scoreboard.
-
----
 
 ## Game Behavior and Appearance
 
@@ -79,16 +63,12 @@ The game automatically pauses if the window loses focus.
 
 - The Splash Screen now features a brick wall which is more aligned with the game.
 
----
-
 ### Balls
 
 - The vertical speed of balls increase each time it bounces off the player's platform.
 - This is to encourage the user to rely more on their reflexes.
 - Maintaining the ball being in the air, and hence the combo, would be more challenging but rewarding.
 - Increases the pace of the game and makes level-clearing faster.
-
----
 
 ### Bricks
 
@@ -104,8 +84,6 @@ Added the following bricks to introduce variety, colour and challenges to the ga
 They feature different strengths, requiring different number of hits to break, as well as
 being able to reflect the ball completely which is based on a unique pre-set probability.
 
----
-
 ### Levels
 
 The game now features 7 levels in total. This increases variety and keeps the game
@@ -119,8 +97,6 @@ challenging and interesting as well. Levels are listed in order of difficulty.
 - Granite and emerald
 - Full emerald
 
----
-
 # Refactoring Activities
 
 ## MVC Design Pattern
@@ -130,8 +106,6 @@ Implemented the **Model-View-Controller** design pattern to most of the project.
 - `Model` – Scores, Bricks, Balls, Platform
 - `View` – Splash Screen, Game Board, Username Input Dialog, Debug Dialog
 - `Controller` – Username Input, Debugging Input, Game Logic and Behaviour
-
----
 
 ## Class Organisation, Single Responsibility and Encapsulation
 
@@ -144,5 +118,3 @@ High cohesion is also the reason why leaderboards is separated from the rest of 
 Large classes and methods that expose underlying logic and implementations have also been
 encapsulated through extracting smaller methods and lend to more abstracted and readable
 code for the programmer.
-
----
