@@ -17,8 +17,6 @@
  */
 package com.hcyic1.brickdestroy.view;
 
-import com.hcyic1.brickdestroy.highscore.HighScore;
-import com.hcyic1.brickdestroy.highscore.HighScoreUserInput;
 import com.hcyic1.brickdestroy.model.game.GameBoard;
 
 import javax.swing.*;

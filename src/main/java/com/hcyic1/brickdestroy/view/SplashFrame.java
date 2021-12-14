@@ -31,11 +31,15 @@ import java.awt.geom.Rectangle2D;
  */
 public class SplashFrame extends JComponent implements MouseListener, MouseMotionListener {
 
-    private static final String GREETINGS = "Welcome to:";
-    private static final String GAME_TITLE = "Brick Destroy";
-    private static final String CREDITS = "Version 0.1";
+    private static final String GREETINGS = "Welcome to";
+    private static final String GAME_TITLE = "Brick Destroy 2.0";
+    private static final String CREDITS = "An adaptation of FillipoRanza's Brick Destroy";
+    private static final String CREDITS_2 = "ianczm\\COMP2042_CW_hcyic1";
     private static final String START_TEXT = "Start";
-    private static final String MENU_TEXT = "Exit";
+    private static final String INFO_TEXT = "Info";
+    private static final String EXIT_TEXT = "Exit";
+
+    private static final String SPLASH_BG_FILEPATH = "src/main/resources/bgImage.jpg";
 
     private static final Color BG_COLOR = Color.GREEN.darker();
     private static final Color BORDER_COLOR = new Color(200, 8, 21); //Venetian Red
@@ -51,10 +55,10 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
 
     private Rectangle splashScreen;
     private Rectangle startButton;
-    private Rectangle menuButton;
+    private Rectangle exitButton;
+    private Rectangle infoButton;
 
-    private JTextField textField;
-    private JButton submitButton;
+    private final Dimension area;
 
     private BasicStroke borderStoke;
     private BasicStroke borderStoke_noDashes;
@@ -67,8 +71,12 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
     private final GameFrame gameFrame;
 
     private boolean startClicked;
-    private boolean menuClicked;
+    private boolean exitClicked;
+    private boolean infoClicked;
 
+    private InfoFrame infoFrame = new InfoFrame();
+
+    private final Image splashBg = Toolkit.getDefaultToolkit().getImage(SPLASH_BG_FILEPATH);
 
     /**
      * Constructor to properly configure the user interface
@@ -79,6 +87,9 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
     public SplashFrame(GameFrame gameFrame, Dimension area) {
 
         this.gameFrame = gameFrame;
+        this.area = area;
+
+        // might need to remove other area parameters as they are now redundant
 
         focusWindowAndInput();
         createScreen(area);
@@ -124,7 +135,8 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
     private void createButtons(Dimension area) {
         Dimension btnDim = new Dimension(area.width / 3, area.height / 12);
         startButton = new Rectangle(btnDim);
-        menuButton = new Rectangle(btnDim);
+        exitButton = new Rectangle(btnDim);
+        infoButton = new Rectangle(btnDim);
     }
 
     /**
@@ -173,8 +185,10 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
     private void drawContainer(Graphics2D g2d) {
         Color prev = g2d.getColor();
 
-        g2d.setColor(BG_COLOR);
-        g2d.fill(splashScreen);
+//        g2d.setColor(BG_COLOR);
+//        g2d.fill(splashScreen);
+
+        g2d.drawImage(splashBg, 0, 0, (int) area.getWidth(), (int) area.getHeight(),null);
 
         Stroke tmp = g2d.getStroke();
 
@@ -200,6 +214,7 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
         Rectangle2D greetingsRect = greetingsFont.getStringBounds(GREETINGS, frc);
         Rectangle2D gameTitleRect = gameTitleFont.getStringBounds(GAME_TITLE, frc);
         Rectangle2D creditsRect = creditsFont.getStringBounds(CREDITS, frc);
+        Rectangle2D credits2Rect = creditsFont.getStringBounds(CREDITS_2, frc);
 
         int sX, sY;
 
@@ -210,16 +225,20 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
         g2d.drawString(GREETINGS, sX, sY);
 
         sX = (int) (splashScreen.getWidth() - gameTitleRect.getWidth()) / 2;
-        sY += (int) gameTitleRect.getHeight() * 1.1;//add 10% of String height between the two strings
+        sY += (int) gameTitleRect.getHeight() * 0.8;
 
         g2d.setFont(gameTitleFont);
         g2d.drawString(GAME_TITLE, sX, sY);
 
         sX = (int) (splashScreen.getWidth() - creditsRect.getWidth()) / 2;
-        sY += (int) creditsRect.getHeight() * 1.1;
+        sY += (int) creditsRect.getHeight() * 1.5;
 
         g2d.setFont(creditsFont);
         g2d.drawString(CREDITS, sX, sY);
+
+        sX = (int) (splashScreen.getWidth() - credits2Rect.getWidth()) / 2;
+        sY += (int) credits2Rect.getHeight() * 1.1;
+        g2d.drawString(CREDITS_2, sX, sY);
 
 
     }
@@ -228,18 +247,19 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
 
         FontRenderContext frc = g2d.getFontRenderContext();
 
-        Rectangle2D txtRect = buttonFont.getStringBounds(START_TEXT, frc);
-        Rectangle2D mTxtRect = buttonFont.getStringBounds(MENU_TEXT, frc);
+        Rectangle2D startRect = buttonFont.getStringBounds(START_TEXT, frc);
+        Rectangle2D exitRect = buttonFont.getStringBounds(EXIT_TEXT, frc);
+        Rectangle2D infoRect = buttonFont.getStringBounds(INFO_TEXT, frc);
 
         g2d.setFont(buttonFont);
 
         int x = (splashScreen.width - startButton.width) / 2;
-        int y = (int) ((splashScreen.height - startButton.height) * 0.8);
+        int y = (int) ((splashScreen.height - startButton.height) * 0.6);
 
         startButton.setLocation(x, y);
 
-        x = (int) (startButton.getWidth() - txtRect.getWidth()) / 2;
-        y = (int) (startButton.getHeight() - txtRect.getHeight()) / 2;
+        x = (int) (startButton.getWidth() - startRect.getWidth()) / 2;
+        y = (int) (startButton.getHeight() - startRect.getHeight()) / 2;
 
         x += startButton.x;
         y += startButton.y + (startButton.height * 0.9);
@@ -262,26 +282,53 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
 
         y *= 1.2;
 
-        menuButton.setLocation(x, y);
+        infoButton.setLocation(x, y);
 
 
-        x = (int) (menuButton.getWidth() - mTxtRect.getWidth()) / 2;
-        y = (int) (menuButton.getHeight() - mTxtRect.getHeight()) / 2;
+        x = (int) (infoButton.getWidth() - infoRect.getWidth()) / 2;
+        y = (int) (infoButton.getHeight() - infoRect.getHeight()) / 2;
 
-        x += menuButton.x;
-        y += menuButton.y + (startButton.height * 0.9);
+        x += infoButton.x;
+        y += infoButton.y + (startButton.height * 0.9);
 
-        if (menuClicked) {
+        if (infoClicked) {
             Color tmp = g2d.getColor();
 
             g2d.setColor(CLICKED_BUTTON_COLOR);
-            g2d.draw(menuButton);
+            g2d.draw(infoButton);
             g2d.setColor(CLICKED_TEXT);
-            g2d.drawString(MENU_TEXT, x, y);
+            g2d.drawString(INFO_TEXT, x, y);
             g2d.setColor(tmp);
         } else {
-            g2d.draw(menuButton);
-            g2d.drawString(MENU_TEXT, x, y);
+            g2d.draw(infoButton);
+            g2d.drawString(INFO_TEXT, x, y);
+        }
+
+        x = infoButton.x;
+        y = infoButton.y;
+
+        y *= 1.175;
+
+        exitButton.setLocation(x, y);
+
+
+        x = (int) (exitButton.getWidth() - exitRect.getWidth()) / 2;
+        y = (int) (exitButton.getHeight() - exitRect.getHeight()) / 2;
+
+        x += exitButton.x;
+        y += exitButton.y + (infoButton.height * 0.9);
+
+        if (exitClicked) {
+            Color tmp = g2d.getColor();
+
+            g2d.setColor(CLICKED_BUTTON_COLOR);
+            g2d.draw(exitButton);
+            g2d.setColor(CLICKED_TEXT);
+            g2d.drawString(EXIT_TEXT, x, y);
+            g2d.setColor(tmp);
+        } else {
+            g2d.draw(exitButton);
+            g2d.drawString(EXIT_TEXT, x, y);
         }
 
     }
@@ -291,9 +338,12 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
         Point p = mouseEvent.getPoint();
         if (startButton.contains(p)) {
             gameFrame.displayGameBoard();
-        } else if (menuButton.contains(p)) {
+        } else if (exitButton.contains(p)) {
             System.out.println("Goodbye " + System.getProperty("user.name"));
             System.exit(0);
+        } else if (infoButton.contains(p)) {
+            // show info here.
+            infoFrame.showInfoFrame();
         }
     }
 
@@ -303,10 +353,12 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
         if (startButton.contains(p)) {
             startClicked = true;
             repaint(startButton.x, startButton.y, startButton.width + 1, startButton.height + 1);
-
-        } else if (menuButton.contains(p)) {
-            menuClicked = true;
-            repaint(menuButton.x, menuButton.y, menuButton.width + 1, menuButton.height + 1);
+        } else if (exitButton.contains(p)) {
+            exitClicked = true;
+            repaint(exitButton.x, exitButton.y, exitButton.width + 1, exitButton.height + 1);
+        } else if (infoButton.contains(p)) {
+            infoClicked = true;
+            repaint(infoButton.x, infoButton.y, infoButton.width + 1, infoButton.height + 1);
         }
     }
 
@@ -315,9 +367,12 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
         if (startClicked) {
             startClicked = false;
             repaint(startButton.x, startButton.y, startButton.width + 1, startButton.height + 1);
-        } else if (menuClicked) {
-            menuClicked = false;
-            repaint(menuButton.x, menuButton.y, menuButton.width + 1, menuButton.height + 1);
+        } else if (exitClicked) {
+            exitClicked = false;
+            repaint(exitButton.x, exitButton.y, exitButton.width + 1, exitButton.height + 1);
+        } else if (infoClicked) {
+            infoClicked = false;
+            repaint(infoButton.x, infoButton.y, infoButton.width + 1, infoButton.height + 1);
         }
     }
 
@@ -340,7 +395,7 @@ public class SplashFrame extends JComponent implements MouseListener, MouseMotio
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
         Point p = mouseEvent.getPoint();
-        if (startButton.contains(p) || menuButton.contains(p))
+        if (startButton.contains(p) || exitButton.contains(p) || infoButton.contains(p))
             this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         else
             this.setCursor(Cursor.getDefaultCursor());
