@@ -16,7 +16,6 @@ import com.hcyic1.brickdestroy.model.ball.Ball;
  */
 abstract public class Brick {
 
-    public static final int MIN_CRACK = 1;
     public static final int DEF_CRACK_DEPTH = 1;
     public static final int DEF_STEPS = 35;
 
@@ -177,7 +176,6 @@ abstract public class Brick {
 
     private static Random rnd;
 
-    private String name;
     Shape brickFace;
 
     private Color border;
@@ -189,10 +187,9 @@ abstract public class Brick {
     private boolean broken;
 
 
-    public Brick(String name, Point pos, Dimension size, Color border, Color inner, int strength) {
+    public Brick(Point pos, Dimension size, Color border, Color inner, int strength) {
         rnd = new Random();
         broken = false;
-        this.name = name;
         brickFace = makeBrickFace(pos, size);
         this.border = border;
         this.inner = inner;

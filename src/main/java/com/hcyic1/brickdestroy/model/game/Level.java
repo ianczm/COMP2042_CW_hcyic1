@@ -19,10 +19,7 @@ package com.hcyic1.brickdestroy.model.game;
 
 import com.hcyic1.brickdestroy.model.ball.Ball;
 import com.hcyic1.brickdestroy.model.ball.RubberBall;
-import com.hcyic1.brickdestroy.model.brick.Brick;
-import com.hcyic1.brickdestroy.model.brick.CementBrick;
-import com.hcyic1.brickdestroy.model.brick.ClayBrick;
-import com.hcyic1.brickdestroy.model.brick.SteelBrick;
+import com.hcyic1.brickdestroy.model.brick.*;
 import com.hcyic1.brickdestroy.highscore.HighScore;
 import com.hcyic1.brickdestroy.model.platform.Platform;
 
@@ -33,11 +30,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Level {
 
-    private static final int LEVELS_COUNT = 4;
+    private static final int LEVELS_COUNT = 7;
 
     private static final int CLAY = 1;
-    private static final int STEEL = 2;
-    private static final int CEMENT = 3;
+    private static final int STONE = 2;
+    private static final int GRANITE = 3;
+    private static final int TOPAZ = 4;
+    private static final int RUBY = 5;
+    private static final int EMERALD = 6;
     private static final int BALL_COUNT = 3;
     private static final boolean FORCE_NEGATIVE = true;
 
@@ -205,9 +205,12 @@ public class Level {
     private Brick[][] makeLevels(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio) {
         Brick[][] tmp = new Brick[LEVELS_COUNT][];
         tmp[0] = makeSingleTypeLevel(drawArea, brickCount, lineCount, brickDimensionRatio, CLAY);
-        tmp[1] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, CLAY, CEMENT);
-        tmp[2] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, CLAY, STEEL);
-        tmp[3] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, STEEL, CEMENT);
+        tmp[1] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, CLAY, STONE);
+        tmp[2] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, CLAY, GRANITE);
+        tmp[3] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, STONE, TOPAZ);
+        tmp[4] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, GRANITE, RUBY);
+        tmp[5] = makeChessboardLevel(drawArea, brickCount, lineCount, brickDimensionRatio, GRANITE, EMERALD);
+        tmp[6] = makeSingleTypeLevel(drawArea, brickCount, lineCount, brickDimensionRatio, EMERALD);
         return tmp;
     }
 
@@ -343,8 +346,11 @@ public class Level {
     private Brick makeBrick(Point point, Dimension size, int type) {
         return switch (type) {
             case CLAY -> new ClayBrick(point, size);
-            case STEEL -> new SteelBrick(point, size);
-            case CEMENT -> new CementBrick(point, size);
+            case STONE -> new StoneBrick(point, size);
+            case GRANITE -> new GraniteBrick(point, size);
+            case TOPAZ -> new TopazBrick(point, size);
+            case RUBY -> new RubyBrick(point, size);
+            case EMERALD -> new EmeraldBrick(point, size);
             default -> throw new IllegalArgumentException(String.format("Unknown Type:%d\n", type));
         };
     }
