@@ -18,12 +18,20 @@ public class HighScoreFile {
     private static final String DELIMITER = ", ";
     private static final int SCORE_NOT_FOUND = -1;
 
+    public static final int DO_NOT_LOAD_FILE = 100;
+
     private final ArrayList<HighScore> highScores = new ArrayList<>();
     private File file;
 
     public HighScoreFile() {
         initFile();
         loadHighScoresFromFile();
+    }
+
+    public HighScoreFile(int mode) {
+        if (mode == DO_NOT_LOAD_FILE) {
+            System.out.println("Test mode.");
+        }
     }
 
     public void initFile() {
@@ -119,6 +127,10 @@ public class HighScoreFile {
             highScores.set(i, highScores.get(max));
             highScores.set(max, temp);
         }
+    }
+
+    public HighScore getHighScoreByName(String name) {
+        return highScores.get(getIdxByName(name));
     }
 
     private int getIdxByName(String name) {

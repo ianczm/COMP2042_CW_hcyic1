@@ -31,6 +31,7 @@ public class EmeraldBrick extends Brick {
         return brickFace;
     }
 
+    // dir is crack direction
     public boolean setImpact(Point2D point, int dir) {
         if (super.isBroken())
             return false;

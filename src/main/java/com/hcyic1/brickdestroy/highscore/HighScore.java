@@ -1,16 +1,14 @@
 package com.hcyic1.brickdestroy.highscore;
 
-import javax.swing.*;
 import java.lang.Math;
 import java.util.ArrayList;
 
 public class HighScore {
+
     // future: could take brick hardness and time into account
     // scoreMultiplier: score is determined by most recent scoreMultiplier only
 
-    public static final float CLAY_BRICK_REWARD = 1.0F;
-    public static final float STEEL_BRICK_REWARD = 1.5F;
-    public static final float CEMENT_BRICK_REWARD = 2.0F;
+    public static final float BASE_BRICK_REWARD = 1.0F;
 
     public static final float BASE_SCORE_MULTIPLIER = 1.0F;
     private float scoreMultiplier;
@@ -22,15 +20,6 @@ public class HighScore {
     private float score;
 
     public HighScore() {
-        this.ballsUsed = 0;
-        this.bricksDestroyed = 0;
-        this.currentBallBrickCount = 0;
-        resetScore();
-        resetScoreMultiplier();
-    }
-
-    public HighScore(String name) {
-        this.name = name;
         this.ballsUsed = 0;
         this.bricksDestroyed = 0;
         this.currentBallBrickCount = 0;
@@ -51,8 +40,8 @@ public class HighScore {
      * Reward the user with score for destroying bricks
      * and controlling the ball well (not letting it fall)
      */
-    public void updateScore() {
-        score += CLAY_BRICK_REWARD * scoreMultiplier;
+    public void incScore() {
+        score += BASE_BRICK_REWARD * scoreMultiplier;
     }
 
     public void resetScore() {

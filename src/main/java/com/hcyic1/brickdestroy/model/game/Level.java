@@ -231,7 +231,7 @@ public class Level {
             brickCount--;
             // update score
             player.incBricksDestroyed();
-            player.updateScore();
+            player.incScore();
             player.updateScoreMultiplier();
         } else if (impactFrameSides()) {
             // ball hits sides
