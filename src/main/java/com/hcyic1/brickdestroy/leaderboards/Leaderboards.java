@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This is a collection of the Score object that has
+ * methods to sort, access and save high scores to
+ * a persistent file.
+ */
 public class Leaderboards {
 
     public static final String FILEPATH = "highscores.txt";
@@ -23,17 +28,32 @@ public class Leaderboards {
     private final ArrayList<Score> scores = new ArrayList<>();
     private File file;
 
+    /**
+     * Automatically initialises and loads the
+     * high score file saved. Will create one
+     * if none exists.
+     */
     public Leaderboards() {
         initFile();
         loadHighScoresFromFile();
     }
 
+    /**
+     * The constructor that is used for
+     * testing which does not load or initialise
+     * any leaderboards file.
+     * @param mode the DO_NOT_LOAD_FILE flag
+     */
     public Leaderboards(int mode) {
         if (mode == DO_NOT_LOAD_FILE) {
             System.out.println("Test mode.");
         }
     }
 
+    /**
+     * Reads the leaderboard file or creates one
+     * if it does not exist.
+     */
     public void initFile() {
         try {
             file = new File(FILEPATH);
@@ -48,6 +68,11 @@ public class Leaderboards {
         }
     }
 
+    /**
+     * Once the leaderboards file is pointed to, this
+     * method will read each score line by line and
+     * append it to the list of scores in memory.
+     */
     public void loadHighScoresFromFile() {
         try {
             Scanner reader = new Scanner(file);
@@ -62,6 +87,11 @@ public class Leaderboards {
         }
     }
 
+    /**
+     * Converts a single line of scores into a Score object
+     * and adds it to the leaderboards.
+     * @param scoreString comma-delimited string to be converted into a score.
+     */
     public void loadScoreFromString(String scoreString) {
         Score score = new Score();
         String[] scoreStrings = scoreString.split(DELIMITER, NUM_COLS);
@@ -74,6 +104,10 @@ public class Leaderboards {
         sortByScores();
     }
 
+    /**
+     * Writes the leaderboards list that is in memory
+     * into the leaderboards file for persistence.
+     */
     public void saveHighScoresToFile() {
         try {
             FileWriter writer = new FileWriter(FILEPATH);
@@ -88,6 +122,14 @@ public class Leaderboards {
         }
     }
 
+    /**
+     * Holds the logic behind whether to add a score
+     * into the leaderboards or not. Will check existing
+     * scores to see if they are lower than the new incoming one
+     * for the current user,
+     * and sorts from best to worst score.
+     * @param score score to be added.
+     */
     public void addOrUpdateScore(Score score) {
 
         if (scoreExists(score)) {
@@ -129,6 +171,12 @@ public class Leaderboards {
         }
     }
 
+    /**
+     * Returns the score in the leaderboards list
+     * that matches the input name.
+     * @param name name string
+     * @return ranking of user, else -1 if not found.
+     */
     public Score getHighScoreByName(String name) {
         return scores.get(getIdxByName(name));
     }
@@ -143,6 +191,9 @@ public class Leaderboards {
         return SCORE_NOT_FOUND;
     }
 
+    /**
+     * @return the full list of scores as an ArrayList
+     */
     public ArrayList<Score> getHighScores() {
         sortByScores();
         return scores;

@@ -6,6 +6,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
+/**
+ * The object that displays the leaderboards as
+ * a table GUI.
+ */
 public class LeaderboardsView {
 
     private static final String WINDOW_TITLE = "Brick Destroy High Scores";
@@ -23,12 +27,17 @@ public class LeaderboardsView {
 
     Leaderboards leaderboards;
 
+    /**
+     * Constructor that shows a table based on the
+     * leaderboard object received.
+     * @param leaderboards leaderboards to be displayed.
+     */
     public LeaderboardsView(Leaderboards leaderboards) {
         this.leaderboards = leaderboards;
         initHighScoreView();
     }
 
-    public void initHighScoreView() {
+    private void initHighScoreView() {
 
         frame = new JFrame();
         frame.setTitle(WINDOW_TITLE);
@@ -41,7 +50,7 @@ public class LeaderboardsView {
         frame.add(scrollPane);
     }
 
-    public void updateHighScoreView() {
+    private void updateHighScoreView() {
         String[][] highScoreStrings = generateHighScoreStrings();
         DefaultTableModel tableData = new DefaultTableModel(highScoreStrings, HEADERS);
         table.setModel(tableData);
@@ -58,6 +67,9 @@ public class LeaderboardsView {
         return highScoreStrings.toArray(new String[0][]);
     }
 
+    /**
+     * Displays the leaderboards as a table.
+     */
     public void showScoreTable() {
         updateHighScoreView();
         frame.pack();
