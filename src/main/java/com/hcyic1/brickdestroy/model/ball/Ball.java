@@ -9,6 +9,11 @@ import java.awt.geom.RectangularShape;
  */
 abstract public class Ball {
 
+    // increase speed upon impact to make it more fun to play
+    public static final float SPEED_Y_LIMIT = 7F;
+    public static final float SPEED_X_LIMIT = 5F;
+    public static final float SPEED_MULT = 1.05F;
+
     private Shape ballFace;
 
     private final Point2D center;
@@ -20,8 +25,8 @@ abstract public class Ball {
     private final Color border;
     private final Color inner;
 
-    private int speedX;
-    private int speedY;
+    private float speedX;
+    private float speedY;
 
     public Ball(Point2D center, int radiusA, int radiusB, Color inner, Color border) {
 
@@ -63,6 +68,17 @@ abstract public class Ball {
     public void setSpeed(int x, int y) {
         speedX = x;
         speedY = y;
+    }
+
+    public void incSpeed() {
+
+        if (speedX >= SPEED_X_LIMIT || speedY >= SPEED_Y_LIMIT) {
+            speedX = SPEED_X_LIMIT;
+            speedY = SPEED_Y_LIMIT;
+        } else {
+            speedX *= SPEED_MULT;
+            speedY *= SPEED_MULT;
+        }
     }
 
     public void setXSpeed(int s) {
@@ -132,11 +148,11 @@ abstract public class Ball {
         right.setLocation(center.getX() + (width / 2), center.getY());
     }
 
-    public int getSpeedX() {
+    public float getSpeedX() {
         return speedX;
     }
 
-    public int getSpeedY() {
+    public float getSpeedY() {
         return speedY;
     }
 

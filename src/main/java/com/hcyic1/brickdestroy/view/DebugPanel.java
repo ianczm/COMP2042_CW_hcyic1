@@ -71,10 +71,10 @@ public class DebugPanel extends JPanel {
     }
 
     private void addDebugSliders(Level level) {
-        ballXSpeed = makeSlider(Level.MIN_SPEED_X, Level.MAX_SPEED_X, e -> level.setBallXSpeed(ballXSpeed.getValue()));
+        ballXSpeed = makeSlider(Level.MIN_INIT_SPEED_X, Level.MAX_INIT_SPEED_X, e -> level.setBallXSpeed(ballXSpeed.getValue()));
         this.add(ballXSpeed);
 
-        ballYSpeed = makeSlider(Level.MIN_SPEED_Y, Level.MAX_SPEED_Y, e -> level.setBallYSpeed(ballYSpeed.getValue()));
+        ballYSpeed = makeSlider(Level.MIN_INIT_SPEED_Y, Level.MAX_INIT_SPEED_Y, e -> level.setBallYSpeed(ballYSpeed.getValue()));
         this.add(ballYSpeed);
     }
 

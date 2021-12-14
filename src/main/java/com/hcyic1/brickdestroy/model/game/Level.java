@@ -46,10 +46,10 @@ public class Level {
 
     // Ball speeds
     // original, 3 3 -3 1
-    public static final int MAX_SPEED_X = 6;
-    public static final int MAX_SPEED_Y = 6;
-    public static final int MIN_SPEED_X = -6;
-    public static final int MIN_SPEED_Y = 3;
+    public static final int MAX_INIT_SPEED_X = 5;
+    public static final int MAX_INIT_SPEED_Y = 5;
+    public static final int MIN_INIT_SPEED_X = -5;
+    public static final int MIN_INIT_SPEED_Y = 3;
 
     private Rectangle area;
 
@@ -89,8 +89,8 @@ public class Level {
     }
 
     private void resetBallSpeed() {
-        int speedX = initSpeed(MIN_SPEED_X, MAX_SPEED_X, !FORCE_NEGATIVE);
-        int speedY = initSpeed(MIN_SPEED_Y, MAX_SPEED_Y, FORCE_NEGATIVE);
+        int speedX = initSpeed(MIN_INIT_SPEED_X, MAX_INIT_SPEED_X, !FORCE_NEGATIVE);
+        int speedY = initSpeed(MIN_INIT_SPEED_Y, MAX_INIT_SPEED_Y, FORCE_NEGATIVE);
 
         ball.setSpeed(speedX, speedY);
     }
@@ -223,6 +223,7 @@ public class Level {
         if (platform.impact(ball)) {
             // ball hits platform
             ball.reverseY();
+            ball.incSpeed();
         } else if (impactWall()) {
             /*for efficiency reverse is done into method impactWall
              * because for every brick, program checks for horizontal and vertical impacts
