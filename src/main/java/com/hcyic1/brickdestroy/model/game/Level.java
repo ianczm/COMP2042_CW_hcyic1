@@ -20,7 +20,7 @@ package com.hcyic1.brickdestroy.model.game;
 import com.hcyic1.brickdestroy.model.ball.Ball;
 import com.hcyic1.brickdestroy.model.ball.RubberBall;
 import com.hcyic1.brickdestroy.model.brick.*;
-import com.hcyic1.brickdestroy.highscore.HighScore;
+import com.hcyic1.brickdestroy.highscore.Score;
 import com.hcyic1.brickdestroy.model.platform.Platform;
 
 import java.awt.*;
@@ -67,7 +67,7 @@ public class Level {
     private boolean ballLost;
 
     // prompt user to enter username for registration
-    public HighScore player = new HighScore();
+    public Score player = new Score();
 
     public Level(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
 

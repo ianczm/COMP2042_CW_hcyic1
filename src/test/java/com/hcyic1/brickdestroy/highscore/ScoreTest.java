@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class HighScoreTest {
+class ScoreTest {
 
-    private static HighScore test;
+    private static Score test;
 
     @BeforeAll
     public static void init() {
         // given
-        test = new HighScore("Test", 2, 23, 54.6F);
+        test = new Score("Test", 2, 23, 54.6F);
     }
 
     @Test

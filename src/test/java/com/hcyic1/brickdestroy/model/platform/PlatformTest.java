@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PlatformTest {
 
     private final Rectangle drawArea = new Rectangle(0, 0, 600, 450);

@@ -51,7 +51,7 @@ public class HighScoreView {
 
         ArrayList<String[]> highScoreStrings = new ArrayList<>();
 
-        for (HighScore score: highScoreFile.getHighScores()) {
+        for (Score score: highScoreFile.getHighScores()) {
             highScoreStrings.add(score.scoreToSeparatedStrings());
         }
 

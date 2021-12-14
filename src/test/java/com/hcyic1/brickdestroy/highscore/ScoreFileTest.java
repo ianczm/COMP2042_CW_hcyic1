@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class HighScoreFileTest {
+class ScoreFileTest {
 
     static HighScoreFile testFile;
-    static HighScore testScoreNewUser = new HighScore("ayy", 1, 43, 101.4F);
-    static HighScore testScoreExistingUser = new HighScore("chloe", 1, 43, 32.6F);
+    static Score testScoreNewUser = new Score("ayy", 1, 43, 101.4F);
+    static Score testScoreExistingUser = new Score("chloe", 1, 43, 32.6F);
 
 
     @BeforeAll
