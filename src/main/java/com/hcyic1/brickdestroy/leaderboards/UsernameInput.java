@@ -1,9 +1,9 @@
-package com.hcyic1.brickdestroy.highscore;
+package com.hcyic1.brickdestroy.leaderboards;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ScoreUsernameInput {
+public class UsernameInput {
 
     private static final int WINDOW_WIDTH = 300;
     private static final int WINDOW_HEIGHT = 150;
@@ -12,7 +12,7 @@ public class ScoreUsernameInput {
 
     private final Score player;
 
-    public ScoreUsernameInput(Score player) {
+    public UsernameInput(Score player) {
 
         this.player = player;
         frame = new JFrame();

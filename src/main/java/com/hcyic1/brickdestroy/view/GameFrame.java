@@ -17,7 +17,7 @@
  */
 package com.hcyic1.brickdestroy.view;
 
-import com.hcyic1.brickdestroy.model.game.GameBoard;
+import com.hcyic1.brickdestroy.control.GameBoard;
 
 import javax.swing.*;
 import java.awt.*;

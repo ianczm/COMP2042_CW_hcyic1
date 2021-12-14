@@ -1,4 +1,4 @@
-package com.hcyic1.brickdestroy.highscore;
+package com.hcyic1.brickdestroy.leaderboards;
 
 import java.lang.Math;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Score {
 
     private static final float BASE_BRICK_REWARD = 1.0F;
 
-    private float scoreMultiplier;
+    private float combo;
     private int currentBallBrickCount;
 
     private String name;
@@ -56,7 +56,7 @@ public class Score {
      * and keeping the ball bouncing.
      */
     public void incScore() {
-        score += BASE_BRICK_REWARD * scoreMultiplier;
+        score += BASE_BRICK_REWARD * combo;
     }
 
     /**
@@ -88,7 +88,7 @@ public class Score {
      * has been missed.
      */
     public void resetScoreMultiplier() {
-        scoreMultiplier = BASE_SCORE_MULTIPLIER;
+        combo = BASE_SCORE_MULTIPLIER;
         currentBallBrickCount = 0;
     }
 
@@ -98,9 +98,9 @@ public class Score {
      * getting the first few combos, but prevent impossibly high scores
      * down the line.
      */
-    public void updateScoreMultiplier() {
+    public void updateCombo() {
         float calc = (float) currentBallBrickCount / 5;
-        scoreMultiplier = (float) Math.log(calc + 1) + 1;
+        combo = (float) Math.log(calc + 1) + 1;
     }
 
     /**
@@ -168,8 +168,8 @@ public class Score {
      * Mostly used to display to the UI.
      * @return float of the user's current score multiplier.
      */
-    public float getScoreMultiplier() {
-        return scoreMultiplier;
+    public float getCombo() {
+        return combo;
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.hcyic1.brickdestroy.highscore;
+package com.hcyic1.brickdestroy.leaderboards;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class HighScoreFile {
+public class Leaderboards {
 
     public static final String FILEPATH = "highscores.txt";
     private static final int COL_NAME = 0;
@@ -23,12 +23,12 @@ public class HighScoreFile {
     private final ArrayList<Score> scores = new ArrayList<>();
     private File file;
 
-    public HighScoreFile() {
+    public Leaderboards() {
         initFile();
         loadHighScoresFromFile();
     }
 
-    public HighScoreFile(int mode) {
+    public Leaderboards(int mode) {
         if (mode == DO_NOT_LOAD_FILE) {
             System.out.println("Test mode.");
         }
