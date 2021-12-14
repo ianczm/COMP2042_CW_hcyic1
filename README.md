@@ -37,3 +37,8 @@ The game automatically pauses if the window loses focus.
 - More bricks hit with the same ball gains more score based on a multiplier
 - Multiplier is a function of a logarithmic curve to prevent exceedingly high scores
 - Multiplier is reset each time the ball is lost
+
+#### Info Screen Pop-up
+
+- Upon pressing the Info button in the main menu, a window will pop-up
+- This will display a fully formatted HTML window that shows key bindings, the scoring system and win conditions
