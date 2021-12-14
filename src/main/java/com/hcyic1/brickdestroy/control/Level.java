@@ -15,12 +15,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.brickdestroy.model.game;
+package com.hcyic1.brickdestroy.control;
 
 import com.hcyic1.brickdestroy.model.ball.Ball;
 import com.hcyic1.brickdestroy.model.ball.RubberBall;
 import com.hcyic1.brickdestroy.model.brick.*;
-import com.hcyic1.brickdestroy.highscore.HighScore;
+import com.hcyic1.brickdestroy.leaderboards.Score;
 import com.hcyic1.brickdestroy.model.platform.Platform;
 
 import java.awt.*;
@@ -67,7 +67,7 @@ public class Level {
     private boolean ballLost;
 
     // prompt user to enter username for registration
-    public HighScore player = new HighScore();
+    public Score player = new Score();
 
     public Level(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos) {
 
@@ -232,7 +232,7 @@ public class Level {
             // update score
             player.incBricksDestroyed();
             player.incScore();
-            player.updateScoreMultiplier();
+            player.updateCombo();
         } else if (impactFrameSides()) {
             // ball hits sides
             ball.reverseX();

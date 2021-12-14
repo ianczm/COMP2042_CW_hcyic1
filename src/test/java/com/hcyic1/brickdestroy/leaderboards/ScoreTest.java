@@ -1,17 +1,17 @@
-package com.hcyic1.brickdestroy.highscore;
+package com.hcyic1.brickdestroy.leaderboards;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class HighScoreTest {
+class ScoreTest {
 
-    private static HighScore test;
+    private static Score test;
 
     @BeforeAll
     public static void init() {
         // given
-        test = new HighScore("Test", 2, 23, 54.6F);
+        test = new Score("Test", 2, 23, 54.6F);
     }
 
     @Test
@@ -34,8 +34,8 @@ class HighScoreTest {
     void shouldNotBeDefaultScoreMultiplierAfterUpdate() {
         // when
         test.incBricksDestroyed();
-        test.updateScoreMultiplier();
+        test.updateCombo();
         // then
-        Assertions.assertNotEquals(1.0F, test.getScoreMultiplier());
+        Assertions.assertNotEquals(1.0F, test.getCombo());
     }
 }

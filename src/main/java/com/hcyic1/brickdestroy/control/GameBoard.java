@@ -15,15 +15,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.hcyic1.brickdestroy.model.game;
+package com.hcyic1.brickdestroy.control;
 
-import com.hcyic1.brickdestroy.highscore.HighScoreFile;
-import com.hcyic1.brickdestroy.highscore.HighScoreUserInput;
+import com.hcyic1.brickdestroy.leaderboards.Leaderboards;
+import com.hcyic1.brickdestroy.leaderboards.UsernameInput;
 import com.hcyic1.brickdestroy.model.ball.Ball;
 import com.hcyic1.brickdestroy.model.brick.Brick;
-import com.hcyic1.brickdestroy.view.DebugConsole;
+import com.hcyic1.brickdestroy.view.DebugFrame;
 import com.hcyic1.brickdestroy.model.platform.Platform;
-import com.hcyic1.brickdestroy.highscore.HighScoreView;
+import com.hcyic1.brickdestroy.leaderboards.LeaderboardsView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,10 +68,10 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
     private Rectangle restartButtonRect;
     private int strLen;
 
-    private DebugConsole debugConsole;
+    private DebugFrame debugFrame;
 
-    public HighScoreFile highScoreFile = new HighScoreFile();
-    public HighScoreView highScoreView = new HighScoreView(highScoreFile);
+    public Leaderboards leaderboards = new Leaderboards();
+    public LeaderboardsView leaderboardsView = new LeaderboardsView(leaderboards);
 
     public GameBoard(JFrame owner) {
         super();
@@ -87,17 +87,17 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
         message = "";
         level = new Level(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), BRICK_COUNT, LINE_COUNT, BRICK_DIMENSION_RATIO, new Point(INITIAL_BALL_POS_X, INITIAL_BALL_POS_Y));
 
-        debugConsole = new DebugConsole(owner, level, this);
+        debugFrame = new DebugFrame(owner, level, this);
         //initialize the first level
         level.nextLevel();
 
         // high score intiialisation
-        HighScoreUserInput userInput = new HighScoreUserInput(level.player);
+        UsernameInput userInput = new UsernameInput(level.player);
         System.out.println("Generated new userInput object.");
         System.out.println("Updating username.");
         userInput.updateUsername();
         System.out.println(level.player.getName());
-        highScoreFile.addOrUpdateScore(level.player);
+        leaderboards.addOrUpdateScore(level.player);
         System.out.println("Added scores.");
 
         gameTimer = new Timer(10, e -> {
@@ -108,14 +108,14 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
                     level.getBrickCount(),
                     level.getBallCount(),
                     level.player.getScore(),
-                    level.player.getScoreMultiplier()
+                    level.player.getCombo()
                     );
             if (level.isBallLost()) {
-                highScoreFile.addOrUpdateScore(level.player);
+                leaderboards.addOrUpdateScore(level.player);
                 if (level.ballEnd()) {
                     level.wallReset();
                     message = "Game over";
-                    highScoreView.showScoreTable();
+                    leaderboardsView.showScoreTable();
                 }
                 level.ballReset();
                 gameTimer.stop();
@@ -123,16 +123,16 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
                 if (level.hasLevel()) {
                     message = "Go to Next Level";
                     // show high score screen
-                    highScoreFile.addOrUpdateScore(level.player);
-                    highScoreView.showScoreTable();
+                    leaderboards.addOrUpdateScore(level.player);
+                    leaderboardsView.showScoreTable();
                     gameTimer.stop();
                     level.ballReset();
                     level.wallReset();
                     level.nextLevel();
                 } else {
                     message = "ALL WALLS DESTROYED";
-                    highScoreFile.addOrUpdateScore(level.player);
-                    highScoreView.showScoreTable();
+                    leaderboards.addOrUpdateScore(level.player);
+                    leaderboardsView.showScoreTable();
                     gameTimer.stop();
                 }
             }
@@ -327,11 +327,11 @@ public class GameBoard extends JComponent implements KeyListener, MouseListener,
                 break;
             case KeyEvent.VK_F1:
                 if (keyEvent.isAltDown() && keyEvent.isShiftDown())
-                    debugConsole.setVisible(true);
+                    debugFrame.setVisible(true);
             case KeyEvent.VK_H:
                 // show high score screen
-                highScoreFile.addOrUpdateScore(level.player);
-                highScoreView.showScoreTable();
+                leaderboards.addOrUpdateScore(level.player);
+                leaderboardsView.showScoreTable();
             default:
                 level.platform.stop();
         }

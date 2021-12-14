@@ -1,1 +1,7 @@
-test
+com.hcyic1.brickdestroy
+com.hcyic1.brickdestroy.highscore
+com.hcyic1.brickdestroy.model.ball
+com.hcyic1.brickdestroy.model.brick
+com.hcyic1.brickdestroy.model.game
+com.hcyic1.brickdestroy.model.platform
+com.hcyic1.brickdestroy.view

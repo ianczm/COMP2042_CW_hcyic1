@@ -17,7 +17,7 @@
  */
 package com.hcyic1.brickdestroy.view;
 
-import com.hcyic1.brickdestroy.model.game.Level;
+import com.hcyic1.brickdestroy.control.Level;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;

@@ -18,15 +18,15 @@
 package com.hcyic1.brickdestroy.view;
 
 import com.hcyic1.brickdestroy.model.ball.Ball;
-import com.hcyic1.brickdestroy.model.game.GameBoard;
-import com.hcyic1.brickdestroy.model.game.Level;
+import com.hcyic1.brickdestroy.control.GameBoard;
+import com.hcyic1.brickdestroy.control.Level;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class DebugConsole extends JDialog implements WindowListener {
+public class DebugFrame extends JDialog implements WindowListener {
 
     private static final String TITLE = "Debug Console";
 
@@ -37,7 +37,7 @@ public class DebugConsole extends JDialog implements WindowListener {
     private final Level level;
 
 
-    public DebugConsole(JFrame owner, Level level, GameBoard gameBoard) {
+    public DebugFrame(JFrame owner, Level level, GameBoard gameBoard) {
 
         this.level = level;
         this.owner = owner;

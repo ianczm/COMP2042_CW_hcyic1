@@ -1,4 +1,4 @@
-package com.hcyic1.brickdestroy.highscore;
+package com.hcyic1.brickdestroy.leaderboards;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class HighScoreFile {
+public class Leaderboards {
 
     public static final String FILEPATH = "highscores.txt";
     private static final int COL_NAME = 0;
@@ -20,15 +20,15 @@ public class HighScoreFile {
 
     public static final int DO_NOT_LOAD_FILE = 100;
 
-    private final ArrayList<HighScore> highScores = new ArrayList<>();
+    private final ArrayList<Score> scores = new ArrayList<>();
     private File file;
 
-    public HighScoreFile() {
+    public Leaderboards() {
         initFile();
         loadHighScoresFromFile();
     }
 
-    public HighScoreFile(int mode) {
+    public Leaderboards(int mode) {
         if (mode == DO_NOT_LOAD_FILE) {
             System.out.println("Test mode.");
         }
@@ -63,14 +63,14 @@ public class HighScoreFile {
     }
 
     public void loadScoreFromString(String scoreString) {
-        HighScore score = new HighScore();
+        Score score = new Score();
         String[] scoreStrings = scoreString.split(DELIMITER, NUM_COLS);
         score.setName(scoreStrings[COL_NAME]);
         score.setBallsUsed(Integer.parseInt(scoreStrings[COL_BALLS_USED]));
         score.setBricksDestroyed(Integer.parseInt(scoreStrings[COL_BRICKS_DESTROYED]));
         score.setScore(Float.parseFloat(scoreStrings[COL_SCORE]));
         // might be duplicated
-        highScores.add(score);
+        scores.add(score);
         sortByScores();
     }
 
@@ -78,7 +78,7 @@ public class HighScoreFile {
         try {
             FileWriter writer = new FileWriter(FILEPATH);
             sortByScores();
-            for (HighScore score: highScores) {
+            for (Score score: scores) {
                 writer.write(score.scoreToString());
             }
             writer.close();
@@ -88,13 +88,13 @@ public class HighScoreFile {
         }
     }
 
-    public void addOrUpdateScore(HighScore score) {
+    public void addOrUpdateScore(Score score) {
 
         if (scoreExists(score)) {
-            HighScore existing = highScores.get(getIdxByName(score.getName()));
+            Score existing = scores.get(getIdxByName(score.getName()));
             if (score.isBetterThan(existing)) {
-                highScores.remove(existing);
-                highScores.add(score);
+                scores.remove(existing);
+                scores.add(score);
                 sortByScores();
                 saveHighScoresToFile();
             } else if (existing.equals(score)) {
@@ -103,39 +103,39 @@ public class HighScoreFile {
                 saveHighScoresToFile();
             }
         } else {
-            highScores.add(score);
+            scores.add(score);
             sortByScores();
             saveHighScoresToFile();
         }
     }
 
-    private boolean scoreExists(HighScore score) {
+    private boolean scoreExists(Score score) {
         return getIdxByName(score.getName()) != SCORE_NOT_FOUND;
     }
 
     private void sortByScores() {
         int max;
-        HighScore temp;
-        for (int i = 0; i < highScores.size(); i++) {
+        Score temp;
+        for (int i = 0; i < scores.size(); i++) {
             max = i;
-            for (int j = i + 1; j < highScores.size(); j++) {
-                if (highScores.get(j).getScore() > highScores.get(max).getScore()) {
+            for (int j = i + 1; j < scores.size(); j++) {
+                if (scores.get(j).getScore() > scores.get(max).getScore()) {
                     max = j;
                 }
             }
-            temp = highScores.get(i);
-            highScores.set(i, highScores.get(max));
-            highScores.set(max, temp);
+            temp = scores.get(i);
+            scores.set(i, scores.get(max));
+            scores.set(max, temp);
         }
     }
 
-    public HighScore getHighScoreByName(String name) {
-        return highScores.get(getIdxByName(name));
+    public Score getHighScoreByName(String name) {
+        return scores.get(getIdxByName(name));
     }
 
     private int getIdxByName(String name) {
-        for (int i = 0; i < highScores.size(); i++) {
-            HighScore score = highScores.get(i);
+        for (int i = 0; i < scores.size(); i++) {
+            Score score = scores.get(i);
             if (score.getName().equals(name)) {
                 return i;
             }
@@ -143,8 +143,8 @@ public class HighScoreFile {
         return SCORE_NOT_FOUND;
     }
 
-    public ArrayList<HighScore> getHighScores() {
+    public ArrayList<Score> getHighScores() {
         sortByScores();
-        return highScores;
+        return scores;
     }
 }

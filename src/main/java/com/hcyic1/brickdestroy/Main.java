@@ -22,7 +22,7 @@ import com.hcyic1.brickdestroy.view.GameFrame;
 import java.awt.*;
 
 
-public class InitialiseGame {
+public class Main {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> new GameFrame().initialize());

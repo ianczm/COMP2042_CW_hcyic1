@@ -1,4 +1,4 @@
-package com.hcyic1.brickdestroy.highscore;
+package com.hcyic1.brickdestroy.leaderboards;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
-public class HighScoreView {
+public class LeaderboardsView {
 
     private static final String WINDOW_TITLE = "Brick Destroy High Scores";
 
@@ -21,10 +21,10 @@ public class HighScoreView {
     JTable table;
     JScrollPane scrollPane;
 
-    HighScoreFile highScoreFile;
+    Leaderboards leaderboards;
 
-    public HighScoreView(HighScoreFile highScoreFile) {
-        this.highScoreFile = highScoreFile;
+    public LeaderboardsView(Leaderboards leaderboards) {
+        this.leaderboards = leaderboards;
         initHighScoreView();
     }
 
@@ -51,7 +51,7 @@ public class HighScoreView {
 
         ArrayList<String[]> highScoreStrings = new ArrayList<>();
 
-        for (HighScore score: highScoreFile.getHighScores()) {
+        for (Score score: leaderboards.getHighScores()) {
             highScoreStrings.add(score.scoreToSeparatedStrings());
         }
 
