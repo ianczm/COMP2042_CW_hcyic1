@@ -28,7 +28,7 @@ The game automatically pauses if the window loses focus.
 ### JavaDocs
 
 - This is to help fellow developers contribute with better understanding.
-- JavaDocs are available for most new features such as scoring and new game behaviour.
+- JavaDocs is fully available for the new leaderboards package that I have implemented as well as others.
 
 ### GitHub Readme
 
